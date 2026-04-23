@@ -1,680 +1,2452 @@
 <!doctype html>
-<html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>
-<title>Tudelü Content Review — 2026-W17</title>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tudelü — W17 Content Review (All Platforms)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0b0f14;--card:#121a24;--text:#e9eef6;--muted:#a9b4c2;--accent:#f05a28;--ok:#2ecc71;--warn:#f1c40f;--bad:#e74c3c;}
-*{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
-a{color:var(--accent)}
-header{padding:24px 20px;border-bottom:1px solid #1e2a3a;position:sticky;top:0;background:rgba(11,15,20,.92);backdrop-filter: blur(8px)}
-.wrap{max-width:1100px;margin:0 auto;padding:24px 20px}
-.section{margin:26px 0}
-.section h2{margin:0 0 12px 0;font-size:20px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-.card{background:var(--card);border:1px solid #1e2a3a;border-radius:14px;overflow:hidden;display:flex;flex-direction:column;min-height:100%}
-.card .pad{padding:14px}
-.tag{display:inline-block;padding:4px 10px;border-radius:999px;background:#1b2533;color:var(--muted);font-size:12px;margin-right:8px}
-.btns{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center}
-.btn{border:0;border-radius:10px;padding:10px 12px;font-weight:600;cursor:pointer}
-.approve{background:rgba(46,204,113,.15);color:var(--ok);border:1px solid rgba(46,204,113,.35)}
-.revise{background:rgba(241,196,15,.12);color:var(--warn);border:1px solid rgba(241,196,15,.35)}
-.decline{background:rgba(231,76,60,.12);color:var(--bad);border:1px solid rgba(231,76,60,.35)}
-img{width:100%;display:block;background:#0d131c}
-.small{color:var(--muted);font-size:13px;line-height:1.35}
-pre{white-space:pre-wrap;background:#0d131c;border:1px solid #1e2a3a;border-radius:12px;padding:12px;overflow:auto}
-.sp{height:8px}
-</style></head>
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: #F7F6F3;
+  color: #1A1A1A;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+:root {
+  --cream: #F7F6F3;
+  --white: #FFFFFF;
+  --ink: #1A1A1A;
+  --ink-muted: #6B7280;
+  --ink-faint: #9CA3AF;
+  --border: #E5E3DE;
+  --border-strong: #D1CFC9;
+  --accent: #D94F2B;        /* Tudelü orange */
+  --accent-soft: #FDF0ED;
+  
+  --status-pending-bg: #FFFBEB;
+  --status-pending-text: #92400E;
+  --status-pending-border: #FDE68A;
+  
+  --status-approved-bg: #F0FDF4;
+  --status-approved-text: #166534;
+  --status-approved-border: #86EFAC;
+  
+  --status-revision-bg: #FFF7ED;
+  --status-revision-text: #9A3412;
+  --status-revision-border: #FED7AA;
+  
+  --status-published-bg: #EFF6FF;
+  --status-published-text: #1E40AF;
+  --status-published-border: #BFDBFE;
+  
+  --status-declined-bg: #FEF2F2;
+  --status-declined-text: #991B1B;
+  --status-declined-border: #FECACA;
+
+  --btn-approve-bg: #F0FDF4;
+  --btn-approve-text: #15803D;
+  --btn-approve-border: #86EFAC;
+  --btn-approve-hover: #DCFCE7;
+
+  --btn-revise-bg: #FFFBEB;
+  --btn-revise-text: #B45309;
+  --btn-revise-border: #FDE68A;
+  --btn-revise-hover: #FEF3C7;
+
+  --btn-decline-bg: #FEF2F2;
+  --btn-decline-text: #DC2626;
+  --btn-decline-border: #FECACA;
+  --btn-decline-hover: #FEE2E2;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-lg: 0 10px 30px rgba(0,0,0,0.08), 0 4px 8px rgba(0,0,0,0.04);
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+@media (max-width: 640px) { .container { padding: 0 16px; } }
+
+/* ============================================================
+   STICKY HEADER + NAV
+   ============================================================ */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(247,246,243,0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+.wordmark {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+.wordmark span { color: var(--accent); }
+.week-badge {
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+.platform-nav {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  flex: 1;
+  min-width: 0;
+}
+.nav-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--ink-muted);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+.nav-pill:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+.nav-pill .count {
+  background: var(--border);
+  color: var(--ink-muted);
+  border-radius: 999px;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* ============================================================
+   SUMMARY CARD
+   ============================================================ */
+.summary-section {
+  padding: 32px 0 0;
+}
+.summary-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 24px 28px;
+  box-shadow: var(--shadow-sm);
+}
+.summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.summary-title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+}
+.summary-subtitle {
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin-top: 2px;
+}
+.summary-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.stat-cell {
+  text-align: center;
+  padding: 14px 10px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--cream);
+}
+.stat-num {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+.stat-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink-muted);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.stat-cell.total .stat-num { color: var(--ink); }
+.stat-cell.pending .stat-num { color: #92400E; }
+.stat-cell.approved .stat-num { color: #166534; }
+.stat-cell.published .stat-num { color: #1E40AF; }
+.stat-cell.declined .stat-num { color: #991B1B; }
+.progress-bar-wrap {
+  background: var(--border);
+  border-radius: 999px;
+  height: 8px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #15803D 0%, #22C55E 100%);
+  border-radius: 999px;
+  transition: width 0.5s ease;
+}
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--ink-muted);
+  margin-top: 6px;
+}
+
+/* ============================================================
+   PLATFORM SECTIONS
+   ============================================================ */
+.platform-section {
+  padding: 40px 0 0;
+}
+.platform-section:last-child { padding-bottom: 64px; }
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--border);
+}
+.platform-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+.section-count {
+  font-size: 13px;
+  color: var(--ink-muted);
+  background: var(--border);
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-weight: 500;
+}
+.section-desc {
+  font-size: 12px;
+  color: var(--ink-muted);
+  margin-left: auto;
+}
+
+/* ============================================================
+   INSTAGRAM GRID
+   ============================================================ */
+.grid-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+@media (max-width: 900px) {
+  .grid-3col { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .grid-3col { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   LINKEDIN / FACEBOOK — 1 COLUMN
+   ============================================================ */
+.list-1col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ============================================================
+   PINTEREST GRID — 2 COLUMNS
+   ============================================================ */
+.grid-2col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+@media (max-width: 680px) {
+  .grid-2col { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   POST CARD — BASE
+   ============================================================ */
+.post-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.15s ease;
+}
+.post-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Instagram: square image */
+.post-card .img-wrap {
+  position: relative;
+  background: #F0EFEB;
+  overflow: hidden;
+}
+.post-card .img-wrap.sq {
+  aspect-ratio: 1/1;
+}
+/* LinkedIn / Facebook: 16:9 wide */
+.post-card .img-wrap.wide {
+  aspect-ratio: 16/9;
+}
+/* Pinterest: 2:3 vertical */
+.post-card .img-wrap.tall {
+  aspect-ratio: 2/3;
+}
+
+.post-card .img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.post-card .img-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--ink-faint);
+  font-size: 12px;
+  text-align: center;
+  padding: 16px;
+}
+.post-card .img-placeholder .icon {
+  font-size: 28px;
+  opacity: 0.4;
+}
+.post-card .img-placeholder .label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* LinkedIn/Facebook: horizontal layout */
+.post-card.horizontal {
+  flex-direction: row;
+}
+.post-card.horizontal .img-wrap {
+  flex-shrink: 0;
+  width: 260px;
+}
+.post-card.horizontal .img-wrap.sq {
+  aspect-ratio: 1/1;
+  height: auto;
+}
+@media (max-width: 700px) {
+  .post-card.horizontal {
+    flex-direction: column;
+  }
+  .post-card.horizontal .img-wrap {
+    width: 100%;
+  }
+}
+
+.post-card .card-body {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* ============================================================
+   CARD META
+   ============================================================ */
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.meta-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  background: var(--cream);
+  color: var(--ink-muted);
+  border: 1px solid var(--border);
+}
+.meta-tag.platform-tag {
+  background: #1A1A1A;
+  color: #fff;
+  border-color: transparent;
+}
+.meta-tag.day-tag {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: transparent;
+}
+.meta-tag.audience-tag {
+  background: #EEF2FF;
+  color: #4338CA;
+  border-color: transparent;
+}
+
+/* Status badge */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  border: 1px solid;
+}
+.status-badge::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+.status-badge.pending {
+  background: var(--status-pending-bg);
+  color: var(--status-pending-text);
+  border-color: var(--status-pending-border);
+}
+.status-badge.approved {
+  background: var(--status-approved-bg);
+  color: var(--status-approved-text);
+  border-color: var(--status-approved-border);
+}
+.status-badge.revision_requested {
+  background: var(--status-revision-bg);
+  color: var(--status-revision-text);
+  border-color: var(--status-revision-border);
+}
+.status-badge.published {
+  background: var(--status-published-bg);
+  color: var(--status-published-text);
+  border-color: var(--status-published-border);
+}
+.status-badge.declined {
+  background: var(--status-declined-bg);
+  color: var(--status-declined-text);
+  border-color: var(--status-declined-border);
+}
+
+/* Post headline */
+.card-headline {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.card-headline.large {
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+/* Post copy */
+.card-copy {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--ink-muted);
+  flex: 1;
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.card-copy.lg {
+  font-size: 13px;
+}
+
+/* CTA row */
+.card-cta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  background: var(--cream);
+  border-radius: var(--radius-sm);
+  margin-bottom: 12px;
+  border: 1px solid var(--border);
+}
+.card-cta .cta-icon {
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.card-cta .cta-text {
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 600;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card-cta .cta-url {
+  font-size: 10px;
+  color: var(--ink-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
+}
+
+/* ============================================================
+   ACTION BUTTONS
+   ============================================================ */
+.card-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: auto;
+}
+.action-btn {
+  flex: 1;
+  min-width: 70px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 6px;
+  border-radius: var(--radius-sm);
+  border: 1px solid;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  white-space: nowrap;
+}
+.action-btn.approve {
+  background: var(--btn-approve-bg);
+  color: var(--btn-approve-text);
+  border-color: var(--btn-approve-border);
+}
+.action-btn.approve:hover {
+  background: var(--btn-approve-hover);
+}
+.action-btn.revise {
+  background: var(--btn-revise-bg);
+  color: var(--btn-revise-text);
+  border-color: var(--btn-revise-border);
+}
+.action-btn.revise:hover {
+  background: var(--btn-revise-hover);
+}
+.action-btn.decline {
+  background: var(--btn-decline-bg);
+  color: var(--btn-decline-text);
+  border-color: var(--btn-decline-border);
+}
+.action-btn.decline:hover {
+  background: var(--btn-decline-hover);
+}
+
+/* ============================================================
+   THREADS — minimal text list
+   ============================================================ */
+.threads-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.thread-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: box-shadow 0.15s ease;
+}
+.thread-card:hover { box-shadow: var(--shadow-md); }
+.thread-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.thread-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 15px;
+  color: #fff;
+  font-weight: 700;
+}
+.thread-body { flex: 1; min-width: 0; }
+.thread-handle {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.thread-handle span {
+  color: var(--ink-faint);
+  font-weight: 400;
+}
+.thread-text {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.thread-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+/* ============================================================
+   VIDEO SCRIPT CARDS
+   ============================================================ */
+.script-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.15s ease;
+}
+.script-card:hover { box-shadow: var(--shadow-md); }
+.script-video-placeholder {
+  background: #111827;
+  aspect-ratio: 9/16;
+  max-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  color: rgba(255,255,255,0.4);
+}
+.script-video-placeholder .play-icon {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  color: rgba(255,255,255,0.3);
+}
+.script-video-placeholder .video-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.script-body {
+  padding: 16px;
+}
+.script-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.script-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.script-text {
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--ink-muted);
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: 'Inter', monospace;
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  margin-bottom: 12px;
+}
+.script-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+@media (max-width: 900px) {
+  .script-grid { grid-template-columns: repeat(1, 1fr); }
+}
+
+/* ============================================================
+   GBP CARD
+   ============================================================ */
+.gbp-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 24px 28px;
+  box-shadow: var(--shadow-sm);
+  max-width: 680px;
+  transition: box-shadow 0.15s ease;
+}
+.gbp-card:hover { box-shadow: var(--shadow-md); }
+.gbp-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.gbp-logo {
+  width: 40px; height: 40px;
+  border-radius: var(--radius-md);
+  background: #4285F4;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.gbp-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.gbp-type {
+  font-size: 12px;
+  color: var(--ink-faint);
+}
+.gbp-post-title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.gbp-text {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--ink-muted);
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin-bottom: 14px;
+}
+.gbp-cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: #4285F4;
+  color: #fff;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* ============================================================
+   DIVIDER & ANCHOR TARGET OFFSET
+   ============================================================ */
+.anchor-target {
+  display: block;
+  position: relative;
+  top: -80px;
+  visibility: hidden;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 24px 20px;
+  text-align: center;
+  color: var(--ink-faint);
+  font-size: 12px;
+}
+
+/* ============================================================
+   IMAGE LOAD ERROR HANDLING
+   ============================================================ */
+img { background: #F0EFEB; }
+</style>
+</head>
 <body>
-<header>
-  <div class='wrap'>
-    <div style='display:flex;justify-content:space-between;gap:16px;align-items:flex-end;flex-wrap:wrap'>
-      <div>
-        <div style='font-size:18px;font-weight:800'>Tudelü Weekly Content Review</div>
-        <div class='small'>Week: <strong>2026-W17</strong> • Use buttons to open an email to chaim.fischer@tudelu.com with your decision + notes.</div>
-      </div>
-      <div class='small'>Reminder: Real project photos/videos improve performance across every platform.</div>
-    </div>
+
+<!-- ============================================================
+     STICKY HEADER
+     ============================================================ -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="wordmark">Tudelü<span>.</span></div>
+    <div class="week-badge">2026-W17</div>
+    <nav class="platform-nav">
+      <a href="#instagram" class="nav-pill">📸 Instagram <span class="count">21</span></a>
+      <a href="#linkedin" class="nav-pill">💼 LinkedIn <span class="count">5</span></a>
+      <a href="#facebook" class="nav-pill">📘 Facebook <span class="count">5</span></a>
+      <a href="#pinterest" class="nav-pill">📌 Pinterest <span class="count">5</span></a>
+      <a href="#threads" class="nav-pill">🧵 Threads <span class="count">5</span></a>
+      <a href="#youtube" class="nav-pill">▶ YT Shorts <span class="count">3</span></a>
+      <a href="#gbp" class="nav-pill">📍 GBP <span class="count">1</span></a>
+    </nav>
   </div>
 </header>
 
-<div class='wrap'>
-
-<section class='section'>
-  <h2>Instagram (21 posts)</h2>
-  <div class='grid'>
-    
-    <div class='card'>
-      <img src='../instagram/posts/post_01.png' alt='IG Post 1'>
-      <div class='pad'>
-        <div><span class='tag'>Post 1</span><span class='tag'>Predictable &gt; uncertain</span></div>
-        <div class='small' style='margin-top:8px'><strong>The real luxury is predictability.</strong></div>
-        <div class='small' style='margin-top:8px'>Luxury isn’t the powder coat. It’s knowing the canopy will fit, install cleanly, and look intentional.<br><br>Custom metal often looks ‘premium’ right up until the field changes hit: rework, delays, compromises.<br><br>A pre-engineered canopy system flips the script: engineered parts, known tolerances, repeatable outcomes.<br><br>Shift: Stop buying ‘custom.’ Start buying certainty.</div>
-        <div class='btns'>
-          <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%201%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 1%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve</a>
-          <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%201%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 1%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision</a>
-          <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%201%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 1%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline</a>
-        </div>
+<!-- ============================================================
+     SUMMARY CARD
+     ============================================================ -->
+<div class="container">
+<section class="summary-section">
+  <div class="summary-card">
+    <div class="summary-header">
+      <div>
+        <div class="summary-title">Week 17 Content Review — All Platforms</div>
+        <div class="summary-subtitle">45 total pieces · 7 platforms · Tap Approve / Revise / Decline on each post</div>
       </div>
     </div>
-    
-    <div class='card'>
-      <img src='../instagram/posts/post_02.png' alt='IG Post 2'>
-      <div class='pad'>
-        <div><span class='tag'>Post 2</span><span class='tag'>Engineered &gt; improvised</span></div>
-        <div class='small' style='margin-top:8px'><strong>Welding is a liability masquerading as craftsmanship.</strong></div>
-        <div class='small' style='margin-top:8px'>Welding is strong. It’s also slow, variable, and hard to standardize.<br><br>If your canopy depends on perfect welds in the field, your schedule depends on perfect conditions.<br><br>Click-together extrusions replace variability with geometry.<br><br>Shift: Don’t ‘build’ canopies on-site. Assemble engineered systems.</div>
-        <div class='btns'>
-          <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%202%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 2%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve</a>
-          <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%202%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 2%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision</a>
-          <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%202%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 2%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline</a>
-        </div>
+    <div class="summary-stats">
+      <div class="stat-cell total">
+        <div class="stat-num">45</div>
+        <div class="stat-label">Total Posts</div>
+      </div>
+      <div class="stat-cell pending">
+        <div class="stat-num">45</div>
+        <div class="stat-label">Pending Review</div>
+      </div>
+      <div class="stat-cell approved">
+        <div class="stat-num">0</div>
+        <div class="stat-label">Approved</div>
+      </div>
+      <div class="stat-cell published">
+        <div class="stat-num">0</div>
+        <div class="stat-label">Published</div>
+      </div>
+      <div class="stat-cell declined">
+        <div class="stat-num">0</div>
+        <div class="stat-label">Declined</div>
       </div>
     </div>
-    
-    <div class='card'>
-      <img src='../instagram/posts/post_03.png' alt='IG Post 3'>
-      <div class='pad'>
-        <div><span class='tag'>Post 3</span><span class='tag'>Modular &gt; custom</span></div>
-        <div class='small' style='margin-top:8px'><strong>Architects: stop drawing details you can’t control.</strong></div>
-        <div class='small' style='margin-top:8px'>Most canopy details die in the handoff.<br><br>The drawing says one thing. Field conditions say another. The fabricator improvises. The installer ‘makes it work.’<br><br>A modular canopy system keeps the detail intact because the detail is the product.<br><br>Shift: Specify systems, not wishes.</div>
-        <div class='btns'>
-          <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%203%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 3%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve</a>
-          <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%203%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 3%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision</a>
-          <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%203%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 3%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline</a>
-        </div>
-      </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" style="width: 0%"></div>
     </div>
-    
-    <div class='card'>
-      <img src='../instagram/posts/post_04.png' alt='IG Post 4'>
-      <div class='pad'>
-        <div><span class='tag'>Post 4</span><span class='tag'>Scalable &gt; one-off</span></div>
-        <div class='small' style='margin-top:8px'><strong>A canopy shouldn’t be a prototype.</strong></div>
-        <div class='small' style='margin-top:8px'>If every canopy is a one-off, every install is a first time.<br><br>First time means surprises. Surprises mean delays.<br><br>Modular means repeatability: the same components, the same logic, the same outcome—project after project.<br><br>Shift: Build a playbook, not a prototype.</div>
-        <div class='btns'>
-          <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%204%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 4%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve</a>
-          <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%204%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 4%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision</a>
-          <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%204%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 4%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline</a>
-        </div>
-      </div>
+    <div class="progress-label">
+      <span>0 of 45 reviewed</span>
+      <span>0% complete</span>
     </div>
-    
-    <div class='card'>
-      <img src='../instagram/posts/post_05.png' alt='IG Post 5'>
-      <div class='pad'>
-        <div><span class='tag'>Post 5</span><span class='tag'>Predictable &gt; uncertain</span></div>
-        <div class='small' style='margin-top:8px'><strong>The cleanest canopy is the one that installs clean.</strong></div>
-        <div class='small' style='margin-top:8px'>A lot of ‘clean design’ is just clean photography.<br><br>Installation is where messy systems show themselves: uneven lines, patch fixes, field drilling, visible compromises.<br><br>Engineered modules reduce field decisions—so the final lines stay crisp.<br><br>Shift: Design for install, not just for renderings.</div>
-        <div class='btns'>
-          <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%205%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 5%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve</a>
-          <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%205%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 5%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision</a>
-          <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%205%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 5%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline</a>
-        </div>
-      </div>
+    <div style="margin-top:14px; display:flex; gap:8px; flex-wrap:wrap; font-size:12px; color:var(--ink-muted);">
+      <span>📸 Instagram: 21</span>
+      <span>·</span>
+      <span>💼 LinkedIn: 5</span>
+      <span>·</span>
+      <span>📘 Facebook: 5</span>
+      <span>·</span>
+      <span>📌 Pinterest: 5</span>
+      <span>·</span>
+      <span>🧵 Threads: 5</span>
+      <span>·</span>
+      <span>▶ YT Shorts: 3</span>
+      <span>·</span>
+      <span>📍 GBP: 1</span>
     </div>
-    
-    <div class='card'>
-      <img src='../instagram/posts/post_06.png' alt='IG Post 6'>
-      <div class='pad'>
-        <div><span class='tag'>Post 6</span><span class='tag'>Engineered &gt; improvised</span></div>
-        <div class='small' style='margin-top:8px'><strong>Integrated light isn’t an add-on. It’s a design decision.</strong></div>
-        <div class='small' style='margin-top:8px'>Most canopies get lighting late. After the structure. After the finishes.<br><br>Then it becomes conduit, surface fixtures, and visual noise.<br><br>Integrated LED keeps the underside quiet—because the system planned for it from the start.<br><br>Shift: Treat light as architecture, not equipment.</div>
-        <div class='btns'>
-          <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%206%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 6%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve</a>
-          <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%206%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 6%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision</a>
-          <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%206%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 6%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline</a>
-        </div>
-      </div>
-    </div>
-    
-    <div class='card'>
-      <img src='../instagram/posts/post_07.png' alt='IG Post 7'>
-      <div class='pad'>
-        <div><span class='tag'>Post 7</span><span class='tag'>Predictable &gt; uncertain</span></div>
-        <div class='small' style='margin-top:8px'><strong>Contractors: fewer parts isn’t the goal. Fewer decisions is.</strong></div>
-        <div class='small' style='margin-top:8px'>A ‘simple’ canopy can still be decision-heavy: where to drill, how to align, how to patch, what to do when it’s off by 1/4 inch.<br><br>Modular systems move decisions upstream into engineering.<br><br>Less thinking in the field. More speed on the schedule.<br><br>Shift: Win time by removing choices.</div>
-        <div class='btns'>
-          <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%207%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 7%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve</a>
-          <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%207%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 7%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision</a>
-          <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%207%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 7%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline</a>
-        </div>
-      </div>
-    </div>
-    
-    <div class='card'>
-      <img src='../instagram/posts/post_08.png' alt='IG Post 8'>
-      <div class='pad'>
-        <div><span class='tag'>Post 8</span><span class='tag'>Modular &gt; custom</span></div>
-        <div class='small' style='margin-top:8px'><strong>Your canopy doesn’t need ‘custom.’ It needs constraints.</strong></div>
-        <div class='small' style='margin-top:8px'>Constraints are what make design repeatable.<br><br>When everything is custom, nothing is predictable.<br><br>A system gives you a boundary—and inside that boundary you can design with confidence.<br><br>Shift: Constraints don’t limit architecture. They make it real.</div>
-        <div class='btns'>
-          <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%208%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 8%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve</a>
-          <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%208%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 8%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision</a>
-          <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%208%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 8%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline</a>
-        </div>
-      </div>
-    </div>
-    
-    <div class='card'>
-      <img src='../instagram/posts/post_09.png' alt='IG Post 9'>
-      <div class='pad'>
-        <div><span class='tag'>Post 9</span><span class='tag'>Predictable &gt; uncertain</span></div>
-        <div class='small' style='margin-top:8px'><strong>$60/sqft is expensive… until you price the chaos.</strong></div>
-        <div class='small' style='margin-top:8px'>The hidden cost of canopies isn’t material.<br><br>It’s revisions. Truck rolls. Rework. Delays. Coordination.<br><br>A pre-engineered system reduces the chaos tax.<br><br>Shift: Compare installed certainty, not line-item steel.</div>
-        <div class='btns'>
-          <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%209%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 9%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve</a>
-          <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%209%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 9%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision</a>
-          <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%209%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 9%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline</a>
-        </div>
-      </div>
-    </div>
-    
-    <div class='card'>
-      <img src='../instagram/posts/post_10.png' alt='IG Post 10'>
-      <div class='pad'>
-        <div><span class='tag'>Post 10</span><span class='tag'>Scalable &gt; one-off</span></div>
-        <div class='small' style='margin-top:8px'><strong>Distributors: sell systems, not apologies.</strong></div>
-        <div class='small' style='margin-top:8px'>Selling custom means selling uncertainty.<br><br>Every ‘we’ll see in the field’ becomes a future phone call.<br><br>Selling a system means you can answer questions with real logic: specs, components, lead times, install steps.<br><br>Shift: Predictability is a sales advantage.</div>
-        <div class='btns'>
-          <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2010%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 10%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve</a>
-          <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2010%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 10%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision</a>
-          <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2010%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 10%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline</a>
-        </div>
-      </div>
-    </div>
-    
-    <div class='card'>
-      <img src='../instagram/posts/post_11.png' alt='IG Post 11'>
-      <div class='pad'>
-        <div><span class='tag'>Post 11</span><span class='tag'>Engineered &gt; improvised</span></div>
-        <div class='small' style='margin-top:8px'><strong>The underside matters more than the top.</strong></div>
-        <div class='small' style='margin-top:8px'>People don’t stand on top of canopies.<br><br>They live under them. They look up. That’s where details show: seams, lighting, alignment, finish consistency.<br><br>Modular aluminum with integrated LED keeps the underside intentional.<br><br>Shift: Design for the view people actually experience.</div>
-        <div class='btns'>
-          <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2011%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 11%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve</a>
-          <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2011%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 11%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision</a>
-          <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2011%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 11%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline</a>
-        </div>
-      </div>
-    </div>
-    
-    <div class='card'>
-      <img src='../instagram/posts/post_12.png' alt='IG Post 12'>
-      <div class='pad'>
-        <div><span class='tag'>Post 12</span><span class='tag'>Engineered &gt; improvised</span></div>
-        <div class='small' style='margin-top:8px'><strong>If it needs field welding, it’s not a system.</strong></div>
-        <div class='small' style='margin-top:8px'>Systems don’t rely on heroics.<br><br>They rely on repeatable joints, verified tolerances, and assemblies that work the same way every time.<br><br>If a canopy needs welding on-site, it’s custom fabrication pretending to be scalable.<br><br>Shift: Demand a canopy that behaves like a product.</div>
-        <div class='btns'>
-          <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2012%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 12%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve</a>
-          <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2012%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 12%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision</a>
-          <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2012%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 12%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline</a>
-        </div>
-      </div>
-    </div>
-    
-    <div class='card'>
-      <img src='../instagram/posts/post_13.png' alt='IG Post 13'>
-      <div class='pad'>
-        <div><span class='tag'>Post 13</span><span class='tag'>Predictable &gt; uncertain</span></div>
-        <div class='small' style='margin-top:8px'><strong>Powder coat isn’t just color. It’s consistency.</strong></div>
-        <div class='small' style='margin-top:8px'>Paint can hide problems. Powder coat exposes them.<br><br>When lines and joints are precise, powder coat looks like architecture.<br><br>When they’re not, everything becomes obvious.<br><br>Shift: Finish quality starts with engineering quality.</div>
-        <div class='btns'>
-          <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2013%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 13%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve</a>
-          <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2013%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 13%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision</a>
-          <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2013%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 13%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline</a>
-        </div>
-      </div>
-    </div>
-    
-    <div class='card'>
-      <img src='../instagram/posts/post_14.png' alt='IG Post 14'>
-      <div class='pad'>
-        <div><span class='tag'>Post 14</span><span class='tag'>Scalable &gt; one-off</span></div>
-        <div class='small' style='margin-top:8px'><strong>Hotels don’t need ‘unique.’ They need repeatable.</strong></div>
-        <div class='small' style='margin-top:8px'>Hospitality projects win on rollout.<br><br>If your canopy is a one-off, every property becomes a new problem.<br><br>Modular systems let you standardize a look across locations—without reinventing the detail each time.<br><br>Shift: Brand consistency is built through systems.</div>
-        <div class='btns'>
-          <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2014%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 14%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve</a>
-          <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2014%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 14%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision</a>
-          <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2014%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 14%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline</a>
-        </div>
-      </div>
-    </div>
-    
-    <div class='card'>
-      <img src='../instagram/posts/post_15.png' alt='IG Post 15'>
-      <div class='pad'>
-        <div><span class='tag'>Post 15</span><span class='tag'>Predictable &gt; uncertain</span></div>
-        <div class='small' style='margin-top:8px'><strong>Fast install isn’t a benefit. It’s risk control.</strong></div>
-        <div class='small' style='margin-top:8px'>Speed is not about moving faster.<br><br>It’s about spending fewer days exposed to weather, coordination conflicts, and rework.<br><br>A click-together system compresses schedule and narrows the window for things to go wrong.<br><br>Shift: Time saved is risk removed.</div>
-        <div class='btns'>
-          <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2015%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 15%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve</a>
-          <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2015%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 15%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision</a>
-          <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2015%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 15%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline</a>
-        </div>
-      </div>
-    </div>
-    
-    <div class='card'>
-      <img src='../instagram/posts/post_16.png' alt='IG Post 16'>
-      <div class='pad'>
-        <div><span class='tag'>Post 16</span><span class='tag'>Scalable &gt; one-off</span></div>
-        <div class='small' style='margin-top:8px'><strong>Developers: standardize the edge condition.</strong></div>
-        <div class='small' style='margin-top:8px'>Canopies look simple—until you repeat them across 10 sites.<br><br>Then the edge condition becomes a cost center: coordination, details, tolerances, lighting, install labor.<br><br>Systems turn that edge into a repeatable asset.<br><br>Shift: Treat canopies like a product line.</div>
-        <div class='btns'>
-          <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2016%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 16%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve</a>
-          <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2016%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 16%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision</a>
-          <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2016%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 16%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline</a>
-        </div>
-      </div>
-    </div>
-    
-    <div class='card'>
-      <img src='../instagram/posts/post_17.png' alt='IG Post 17'>
-      <div class='pad'>
-        <div><span class='tag'>Post 17</span><span class='tag'>Engineered &gt; improvised</span></div>
-        <div class='small' style='margin-top:8px'><strong>The best details don’t require explanations.</strong></div>
-        <div class='small' style='margin-top:8px'>If you have to ‘explain’ why the canopy looks off, the detail failed.<br><br>Great systems look inevitable: clean joints, aligned lines, quiet lighting, consistent finish.<br><br>Shift: Stop tolerating ‘good enough’ in overhead architecture.</div>
-        <div class='btns'>
-          <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2017%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 17%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve</a>
-          <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2017%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 17%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision</a>
-          <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2017%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 17%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline</a>
-        </div>
-      </div>
-    </div>
-    
-    <div class='card'>
-      <img src='../instagram/posts/post_18.png' alt='IG Post 18'>
-      <div class='pad'>
-        <div><span class='tag'>Post 18</span><span class='tag'>Modular &gt; custom</span></div>
-        <div class='small' style='margin-top:8px'><strong>A modular canopy is a kit of outcomes.</strong></div>
-        <div class='small' style='margin-top:8px'>Most people think modular means ‘limited.’<br><br>In reality, modular means the outcome is engineered: the kit is designed to deliver the same quality again and again.<br><br>Shift: Modular isn’t cheaper. It’s more controlled.</div>
-        <div class='btns'>
-          <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2018%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 18%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve</a>
-          <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2018%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 18%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision</a>
-          <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2018%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 18%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline</a>
-        </div>
-      </div>
-    </div>
-    
-    <div class='card'>
-      <img src='../instagram/posts/post_19.png' alt='IG Post 19'>
-      <div class='pad'>
-        <div><span class='tag'>Post 19</span><span class='tag'>Engineered &gt; improvised</span></div>
-        <div class='small' style='margin-top:8px'><strong>The field shouldn’t be your design studio.</strong></div>
-        <div class='small' style='margin-top:8px'>When installers have to invent solutions, the project pays for it twice: once in labor, again in aesthetics.<br><br>Pre-engineered systems keep creativity in design and certainty in installation.<br><br>Shift: Engineer the decisions before the truck shows up.</div>
-        <div class='btns'>
-          <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2019%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 19%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve</a>
-          <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2019%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 19%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision</a>
-          <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2019%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 19%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline</a>
-        </div>
-      </div>
-    </div>
-    
-    <div class='card'>
-      <img src='../instagram/posts/post_20.png' alt='IG Post 20'>
-      <div class='pad'>
-        <div><span class='tag'>Post 20</span><span class='tag'>Predictable &gt; uncertain</span></div>
-        <div class='small' style='margin-top:8px'><strong>If you want clean lines, stop accepting messy processes.</strong></div>
-        <div class='small' style='margin-top:8px'>Clean lines are a process outcome.<br><br>When your process is improvisation, your result is compromise.<br><br>When your process is engineered modular assembly, your result is architecture.<br><br>Shift: Upgrade the method, not just the look.</div>
-        <div class='btns'>
-          <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2020%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 20%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve</a>
-          <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2020%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 20%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision</a>
-          <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2020%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 20%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline</a>
-        </div>
-      </div>
-    </div>
-    
-    <div class='card'>
-      <img src='../instagram/posts/post_21.png' alt='IG Post 21'>
-      <div class='pad'>
-        <div><span class='tag'>Post 21</span><span class='tag'>Scalable &gt; one-off</span></div>
-        <div class='small' style='margin-top:8px'><strong>You don’t need a canopy. You need a system.</strong></div>
-        <div class='small' style='margin-top:8px'>A canopy is an object.<br><br>A system is a repeatable way to solve shade, weather protection, lighting, and curb appeal—without the chaos.<br><br>Shift: Stop buying a one-off. Start adopting a standard.</div>
-        <div class='btns'>
-          <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2021%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 21%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve</a>
-          <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2021%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 21%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision</a>
-          <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Instagram%2021%20review&body=Week: 2026-W17%0D%0APlatform: Instagram%0D%0AItem: 21%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline</a>
-        </div>
-      </div>
-    </div>
-    
   </div>
 </section>
 
-<section class='section'>
-  <h2>LinkedIn (5 posts)</h2>
-  <div class='card'><div class='pad'>
-    <h1>Tudelü — LinkedIn Posts (2026-W17)</h1>
-<div class="sp"></div>
-<h2>Post 1 (Mon) — Industry Insight</h2>
-<p>**Headline:** Custom canopies don’t fail at design. They fail at process.</p>
-<div class="sp"></div>
-<p>Most canopy projects don’t break down because someone drew the wrong line.</p>
-<div class="sp"></div>
-<p>They break down because the process is built on variability:</p>
-<p>- One-off fabrication</p>
-<p>- Field measurement drift</p>
-<p>- Last-minute coordination changes</p>
-<p>- “We’ll make it work” improvisation</p>
-<div class="sp"></div>
-<p>A modular canopy system changes what’s possible because it changes what’s repeatable.</p>
-<div class="sp"></div>
-<p>Engineered parts + known tolerances + a defined assembly logic = predictable outcomes.</p>
-<div class="sp"></div>
-<p>**Shift:** Stop treating canopies like artisan metalwork. Start treating them like architecture products.</p>
-<div class="sp"></div>
-<p>---</p>
-<div class="sp"></div>
-<h2>Post 2 (Tue) — Product Education</h2>
-<p>**Headline:** “No welding” isn’t a feature. It’s a risk strategy.</p>
-<div class="sp"></div>
-<p>Welding is strong.</p>
-<div class="sp"></div>
-<p>It’s also a single point of failure for schedule and consistency.</p>
-<div class="sp"></div>
-<p>When your canopy depends on perfect welds in the field, your timeline depends on:</p>
-<p>- weather</p>
-<p>- access</p>
-<p>- labor availability</p>
-<p>- craftsmanship consistency</p>
-<div class="sp"></div>
-<p>Click-together extrusions remove that variability.</p>
-<div class="sp"></div>
-<p>You’re not hoping the field goes perfectly.</p>
-<div class="sp"></div>
-<p>You’re assembling a system designed to go predictably.</p>
-<div class="sp"></div>
-<p>**Shift:** The goal isn’t fewer steps. The goal is fewer unknowns.</p>
-<div class="sp"></div>
-<p>---</p>
-<div class="sp"></div>
-<h2>Post 3 (Wed) — Project Story (Generalized)</h2>
-<p>**Headline:** The “clean look” everyone wants is usually decided during installation.</p>
-<div class="sp"></div>
-<p>Here’s what most people miss:</p>
-<div class="sp"></div>
-<p>A canopy’s final aesthetic is rarely determined in a rendering.</p>
-<div class="sp"></div>
-<p>It’s determined on-site—when alignment, tolerances, and last-minute decisions collide.</p>
-<div class="sp"></div>
-<p>When a system is modular and engineered, installers aren’t inventing solutions.</p>
-<div class="sp"></div>
-<p>They’re executing a known assembly.</p>
-<div class="sp"></div>
-<p>That’s how you get the look people call “architectural.”</p>
-<div class="sp"></div>
-<p>**Shift:** If you want clean lines, you need a clean install path.</p>
-<div class="sp"></div>
-<p>---</p>
-<div class="sp"></div>
-<h2>Post 4 (Thu) — Pain Point</h2>
-<p>**Headline:** Every one-off canopy is a new set of meetings.</p>
-<div class="sp"></div>
-<p>Custom canopies quietly create a second project inside the project:</p>
-<p>- detailing debates</p>
-<p>- coordination calls</p>
-<p>- change orders</p>
-<p>- install-day surprises</p>
-<div class="sp"></div>
-<p>That overhead doesn’t scale.</p>
-<div class="sp"></div>
-<p>A system scales because the decisions were made once—upstream—in engineering.</p>
-<div class="sp"></div>
-<p>Then reused.</p>
-<div class="sp"></div>
-<p>**Shift:** Your canopy shouldn’t demand weekly coordination. It should behave like a product.</p>
-<div class="sp"></div>
-<p>---</p>
-<div class="sp"></div>
-<h2>Post 5 (Fri) — Opportunity (Distributors / Reps)</h2>
-<p>**Headline:** Selling custom means selling uncertainty.</p>
-<div class="sp"></div>
-<p>Distributors win when the product is explainable.</p>
-<div class="sp"></div>
-<p>Not “we can fabricate anything.”</p>
-<div class="sp"></div>
-<p>But:</p>
-<p>- what it is</p>
-<p>- how it’s assembled</p>
-<p>- what it costs</p>
-<p>- what the lead time is</p>
-<p>- what the install looks like</p>
-<div class="sp"></div>
-<p>A modular canopy system turns the conversation from promises to logic.</p>
-<div class="sp"></div>
-<p>**Shift:** Predictability isn’t just an operations benefit. It’s a market advantage.</p>
-    <div class='btns'>
-      <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20LinkedIn%20All%20review&body=Week: 2026-W17%0D%0APlatform: LinkedIn%0D%0AItem: All%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve (all)</a>
-      <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20LinkedIn%20All%20review&body=Week: 2026-W17%0D%0APlatform: LinkedIn%0D%0AItem: All%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision (all)</a>
-      <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20LinkedIn%20All%20review&body=Week: 2026-W17%0D%0APlatform: LinkedIn%0D%0AItem: All%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline (all)</a>
+
+<!-- ============================================================
+     INSTAGRAM — 21 posts, 3-column grid
+     ============================================================ -->
+<a id="instagram" class="anchor-target"></a>
+<section class="platform-section">
+  <div class="section-header">
+    <div class="platform-icon" style="background:#fce4ec; font-size:20px;">📸</div>
+    <div class="section-title">Instagram</div>
+    <div class="section-count">21 posts</div>
+    <div class="section-desc" style="display:none">Mon–Sun · 3 per day</div>
+  </div>
+  <div class="grid-3col">
+
+    <!-- IG Post 1 -->
+    <div class="post-card">
+      <div class="img-wrap sq">
+        <img src="../instagram/posts/post_01.png" alt="IG Post 1"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none">
+          <div class="icon">🖼</div>
+          <div class="label">Post 1 · Image</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Mon S1</span>
+          <span class="meta-tag audience-tag">general</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">The real luxury is predictability.</div>
+        <div class="card-copy">Luxury isn't the powder coat. It's knowing the canopy will fit, install cleanly, and look intentional.
+
+Custom metal often looks 'premium' right up until the field changes hit: rework, delays, compromises.
+
+A pre-engineered canopy system flips the script: engineered parts, known tolerances, repeatable outcomes.
+
+Shift: Stop buying 'custom.' Start buying certainty.</div>
+        <div class="card-cta">
+          <span class="cta-icon">🔗</span>
+          <span class="cta-text">Spec Tudelü for your next project →</span>
+        </div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Instagram%20Post%201&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%201%0AHeadline%3A%20The%20real%20luxury%20is%20predictability.%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Instagram%20Post%201&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%201%0AHeadline%3A%20The%20real%20luxury%20is%20predictability.%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Instagram%20Post%201&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%201%0AHeadline%3A%20The%20real%20luxury%20is%20predictability.%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
     </div>
-  </div></div>
+
+    <!-- IG Post 2 -->
+    <div class="post-card">
+      <div class="img-wrap sq">
+        <img src="../instagram/posts/post_02.png" alt="IG Post 2"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none"><div class="icon">🖼</div><div class="label">Post 2 · Image</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Mon S2</span>
+          <span class="meta-tag audience-tag">general</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">Welding is a liability masquerading as craftsmanship.</div>
+        <div class="card-copy">Welding is strong. It's also slow, variable, and hard to standardize.
+
+If your canopy depends on perfect welds in the field, your schedule depends on perfect conditions.
+
+Click-together extrusions replace variability with geometry.
+
+Shift: Don't 'build' canopies on-site. Assemble engineered systems.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Get a free project quote →</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Instagram%20Post%202&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%202%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Instagram%20Post%202&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%202%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Instagram%20Post%202&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%202%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- IG Post 3 -->
+    <div class="post-card">
+      <div class="img-wrap sq">
+        <img src="../instagram/posts/post_03.png" alt="IG Post 3"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none"><div class="icon">🖼</div><div class="label">Post 3 · Image</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Mon S3</span>
+          <span class="meta-tag audience-tag">architect</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">Architects: stop drawing details you can't control.</div>
+        <div class="card-copy">Most canopy details die in the handoff.
+
+The drawing says one thing. Field conditions say another. The fabricator improvises. The installer 'makes it work.'
+
+A modular canopy system keeps the detail intact because the detail is the product.
+
+Shift: Specify systems, not wishes.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Download the architect kit →</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Instagram%20Post%203&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%203%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Instagram%20Post%203&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%203%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Instagram%20Post%203&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%203%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- IG Post 4 -->
+    <div class="post-card">
+      <div class="img-wrap sq">
+        <img src="../instagram/posts/post_04.png" alt="IG Post 4"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none"><div class="icon">🖼</div><div class="label">Post 4 · Image</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Tue S1</span>
+          <span class="meta-tag audience-tag">general</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">A canopy shouldn't be a prototype.</div>
+        <div class="card-copy">If every canopy is a one-off, every install is a first time.
+
+First time means surprises. Surprises mean delays.
+
+Modular means repeatability: the same components, the same logic, the same outcome—project after project.
+
+Shift: Build a playbook, not a prototype.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">See install timeline →</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Instagram%20Post%204&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%204%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Instagram%20Post%204&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%204%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Instagram%20Post%204&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%204%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- IG Post 5 -->
+    <div class="post-card">
+      <div class="img-wrap sq">
+        <img src="../instagram/posts/post_05.png" alt="IG Post 5"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none"><div class="icon">🖼</div><div class="label">Post 5 · Image</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Tue S2</span>
+          <span class="meta-tag audience-tag">general</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">The cleanest canopy is the one that installs clean.</div>
+        <div class="card-copy">A lot of 'clean design' is just clean photography.
+
+Installation is where messy systems show themselves: uneven lines, patch fixes, field drilling, visible compromises.
+
+Engineered modules reduce field decisions—so the final lines stay crisp.
+
+Shift: Design for install, not just for renderings.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">See install specs →</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Instagram%20Post%205&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%205%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Instagram%20Post%205&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%205%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Instagram%20Post%205&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%205%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- IG Post 6 -->
+    <div class="post-card">
+      <div class="img-wrap sq">
+        <img src="../instagram/posts/post_06.png" alt="IG Post 6"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none"><div class="icon">🖼</div><div class="label">Post 6 · Image</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Tue S3</span>
+          <span class="meta-tag audience-tag">architect</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">Integrated light isn't an add-on. It's a design decision.</div>
+        <div class="card-copy">Most canopies get lighting late. After the structure. After the finishes.
+
+Then it becomes conduit, surface fixtures, and visual noise.
+
+Integrated LED keeps the underside quiet—because the system planned for it from the start.
+
+Shift: Treat light as architecture, not equipment.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Download the architect kit →</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Instagram%20Post%206&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%206%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Instagram%20Post%206&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%206%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Instagram%20Post%206&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%206%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- IG Post 7 -->
+    <div class="post-card">
+      <div class="img-wrap sq">
+        <img src="../instagram/posts/post_07.png" alt="IG Post 7"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none"><div class="icon">🖼</div><div class="label">Post 7 · Image</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Wed S1</span>
+          <span class="meta-tag audience-tag">contractor</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">Contractors: fewer parts isn't the goal. Fewer decisions is.</div>
+        <div class="card-copy">A 'simple' canopy can still be decision-heavy: where to drill, how to align, how to patch, what to do when it's off by 1/4 inch.
+
+Modular systems move decisions upstream into engineering.
+
+Less thinking in the field. More speed on the schedule.
+
+Shift: Win time by removing choices.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Calculate your project →</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Instagram%20Post%207&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%207%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Instagram%20Post%207&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%207%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Instagram%20Post%207&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%207%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- IG Post 8 -->
+    <div class="post-card">
+      <div class="img-wrap sq">
+        <img src="../instagram/posts/post_08.png" alt="IG Post 8"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none"><div class="icon">🖼</div><div class="label">Post 8 · Image</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Wed S2</span>
+          <span class="meta-tag audience-tag">architect</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">Your canopy doesn't need 'custom.' It needs constraints.</div>
+        <div class="card-copy">Constraints are what make design repeatable.
+
+When everything is custom, nothing is predictable.
+
+A system gives you a boundary—and inside that boundary you can design with confidence.
+
+Shift: Constraints don't limit architecture. They make it real.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">See install specs →</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Instagram%20Post%208&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%208%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Instagram%20Post%208&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%208%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Instagram%20Post%208&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%208%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- IG Post 9 -->
+    <div class="post-card">
+      <div class="img-wrap sq">
+        <img src="../instagram/posts/post_09.png" alt="IG Post 9"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none"><div class="icon">🖼</div><div class="label">Post 9 · Image</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Wed S3</span>
+          <span class="meta-tag audience-tag">general</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">$60/sqft is expensive… until you price the chaos.</div>
+        <div class="card-copy">The hidden cost of canopies isn't material.
+
+It's revisions. Truck rolls. Rework. Delays. Coordination.
+
+A pre-engineered system reduces the chaos tax.
+
+Shift: Compare installed certainty, not line-item steel.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Get a free project quote →</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Instagram%20Post%209&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%209%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Instagram%20Post%209&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%209%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Instagram%20Post%209&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%209%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- IG Post 10 -->
+    <div class="post-card">
+      <div class="img-wrap sq">
+        <img src="../instagram/posts/post_10.png" alt="IG Post 10"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none"><div class="icon">🖼</div><div class="label">Post 10 · Image</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Thu S1</span>
+          <span class="meta-tag audience-tag">distributor</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">Distributors: sell systems, not apologies.</div>
+        <div class="card-copy">Selling custom means selling uncertainty.
+
+Every 'we'll see in the field' becomes a future phone call.
+
+Selling a system means you can answer questions with real logic: specs, components, lead times, install steps.
+
+Shift: Predictability is a sales advantage.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">See margin sheet →</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Instagram%20Post%2010&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2010%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Instagram%20Post%2010&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2010%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Instagram%20Post%2010&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2010%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- IG Post 11 -->
+    <div class="post-card">
+      <div class="img-wrap sq">
+        <img src="../instagram/posts/post_11.png" alt="IG Post 11"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none"><div class="icon">🖼</div><div class="label">Post 11 · Image</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Thu S2</span>
+          <span class="meta-tag audience-tag">architect</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">The underside matters more than the top.</div>
+        <div class="card-copy">People don't stand on top of canopies.
+
+They live under them. They look up. That's where details show: seams, lighting, alignment, finish consistency.
+
+Modular aluminum with integrated LED keeps the underside intentional.
+
+Shift: Design for the view people actually experience.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Download the architect kit →</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Instagram%20Post%2011&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2011%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Instagram%20Post%2011&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2011%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Instagram%20Post%2011&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2011%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- IG Post 12 -->
+    <div class="post-card">
+      <div class="img-wrap sq">
+        <img src="../instagram/posts/post_12.png" alt="IG Post 12"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none"><div class="icon">🖼</div><div class="label">Post 12 · Image</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Thu S3</span>
+          <span class="meta-tag audience-tag">general</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">If it needs field welding, it's not a system.</div>
+        <div class="card-copy">Systems don't rely on heroics.
+
+They rely on repeatable joints, verified tolerances, and assemblies that work the same way every time.
+
+If a canopy needs welding on-site, it's custom fabrication pretending to be scalable.
+
+Shift: Demand a canopy that behaves like a product.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Spec Tudelü for your next project →</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Instagram%20Post%2012&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2012%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Instagram%20Post%2012&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2012%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Instagram%20Post%2012&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2012%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- IG Post 13 -->
+    <div class="post-card">
+      <div class="img-wrap sq">
+        <img src="../instagram/posts/post_13.png" alt="IG Post 13"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none"><div class="icon">🖼</div><div class="label">Post 13 · Image</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Fri S1</span>
+          <span class="meta-tag audience-tag">general</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">Powder coat isn't just color. It's consistency.</div>
+        <div class="card-copy">Paint can hide problems. Powder coat exposes them.
+
+When lines and joints are precise, powder coat looks like architecture.
+
+When they're not, everything becomes obvious.
+
+Shift: Finish quality starts with engineering quality.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Get a free project quote →</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Instagram%20Post%2013&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2013%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Instagram%20Post%2013&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2013%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Instagram%20Post%2013&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2013%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- IG Post 14 -->
+    <div class="post-card">
+      <div class="img-wrap sq">
+        <img src="../instagram/posts/post_14.png" alt="IG Post 14"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none"><div class="icon">🖼</div><div class="label">Post 14 · Image</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Fri S2</span>
+          <span class="meta-tag audience-tag">developer</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">Hotels don't need 'unique.' They need repeatable.</div>
+        <div class="card-copy">Hospitality projects win on rollout.
+
+If your canopy is a one-off, every property becomes a new problem.
+
+Modular systems let you standardize a look across locations—without reinventing the detail each time.
+
+Shift: Brand consistency is built through systems.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Book a 15-minute consult →</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Instagram%20Post%2014&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2014%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Instagram%20Post%2014&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2014%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Instagram%20Post%2014&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2014%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- IG Post 15 -->
+    <div class="post-card">
+      <div class="img-wrap sq">
+        <img src="../instagram/posts/post_15.png" alt="IG Post 15"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none"><div class="icon">🖼</div><div class="label">Post 15 · Image</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Fri S3</span>
+          <span class="meta-tag audience-tag">contractor</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">Fast install isn't a benefit. It's risk control.</div>
+        <div class="card-copy">Speed is not about moving faster.
+
+It's about spending fewer days exposed to weather, coordination conflicts, and rework.
+
+A click-together system compresses schedule and narrows the window for things to go wrong.
+
+Shift: Time saved is risk removed.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">See install timeline →</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Instagram%20Post%2015&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2015%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Instagram%20Post%2015&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2015%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Instagram%20Post%2015&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2015%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- IG Post 16 -->
+    <div class="post-card">
+      <div class="img-wrap sq">
+        <img src="../instagram/posts/post_16.png" alt="IG Post 16"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none"><div class="icon">🖼</div><div class="label">Post 16 · Image</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Sat S1</span>
+          <span class="meta-tag audience-tag">developer</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">Developers: standardize the edge condition.</div>
+        <div class="card-copy">Canopies look simple—until you repeat them across 10 sites.
+
+Then the edge condition becomes a cost center: coordination, details, tolerances, lighting, install labor.
+
+Systems turn that edge into a repeatable asset.
+
+Shift: Treat canopies like a product line.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Talk to our project team →</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Instagram%20Post%2016&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2016%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Instagram%20Post%2016&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2016%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Instagram%20Post%2016&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2016%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- IG Post 17 -->
+    <div class="post-card">
+      <div class="img-wrap sq">
+        <img src="../instagram/posts/post_17.png" alt="IG Post 17"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none"><div class="icon">🖼</div><div class="label">Post 17 · Image</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Sat S2</span>
+          <span class="meta-tag audience-tag">general</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">The best details don't require explanations.</div>
+        <div class="card-copy">If you have to 'explain' why the canopy looks off, the detail failed.
+
+Great systems look inevitable: clean joints, aligned lines, quiet lighting, consistent finish.
+
+Shift: Stop tolerating 'good enough' in overhead architecture.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">See install specs →</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Instagram%20Post%2017&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2017%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Instagram%20Post%2017&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2017%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Instagram%20Post%2017&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2017%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- IG Post 18 -->
+    <div class="post-card">
+      <div class="img-wrap sq">
+        <img src="../instagram/posts/post_18.png" alt="IG Post 18"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none"><div class="icon">🖼</div><div class="label">Post 18 · Image</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Sat S3</span>
+          <span class="meta-tag audience-tag">general</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">A modular canopy is a kit of outcomes.</div>
+        <div class="card-copy">Most people think modular means 'limited.'
+
+In reality, modular means the outcome is engineered: the kit is designed to deliver the same quality again and again.
+
+Shift: Modular isn't cheaper. It's more controlled.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Spec your canopy in 60 seconds →</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Instagram%20Post%2018&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2018%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Instagram%20Post%2018&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2018%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Instagram%20Post%2018&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2018%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- IG Post 19 -->
+    <div class="post-card">
+      <div class="img-wrap sq">
+        <img src="../instagram/posts/post_19.png" alt="IG Post 19"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none"><div class="icon">🖼</div><div class="label">Post 19 · Image</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Sun S1</span>
+          <span class="meta-tag audience-tag">contractor</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">The field shouldn't be your design studio.</div>
+        <div class="card-copy">When installers have to invent solutions, the project pays for it twice: once in labor, again in aesthetics.
+
+Pre-engineered systems keep creativity in design and certainty in installation.
+
+Shift: Engineer the decisions before the truck shows up.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Calculate your project →</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Instagram%20Post%2019&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2019%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Instagram%20Post%2019&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2019%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Instagram%20Post%2019&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2019%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- IG Post 20 -->
+    <div class="post-card">
+      <div class="img-wrap sq">
+        <img src="../instagram/posts/post_20.png" alt="IG Post 20"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none"><div class="icon">🖼</div><div class="label">Post 20 · Image</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Sun S2</span>
+          <span class="meta-tag audience-tag">general</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">If you want clean lines, stop accepting messy processes.</div>
+        <div class="card-copy">Clean lines are a process outcome.
+
+When your process is improvisation, your result is compromise.
+
+When your process is engineered modular assembly, your result is architecture.
+
+Shift: Upgrade the method, not just the look.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Spec Tudelü for your next project →</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Instagram%20Post%2020&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2020%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Instagram%20Post%2020&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2020%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Instagram%20Post%2020&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2020%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- IG Post 21 -->
+    <div class="post-card">
+      <div class="img-wrap sq">
+        <img src="../instagram/posts/post_21.png" alt="IG Post 21"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none"><div class="icon">🖼</div><div class="label">Post 21 · Image</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Sun S3</span>
+          <span class="meta-tag audience-tag">general</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">You don't need a canopy. You need a system.</div>
+        <div class="card-copy">A canopy is an object.
+
+A system is a repeatable way to solve shade, weather protection, lighting, and curb appeal—without the chaos.
+
+Shift: Stop buying a one-off. Start adopting a standard.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Spec your canopy in 60 seconds →</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Instagram%20Post%2021&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2021%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Instagram%20Post%2021&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2021%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Instagram%20Post%2021&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Instagram%0APost%20Number%3A%2021%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /grid-3col -->
 </section>
 
-<section class='section'>
-  <h2>Facebook (5 posts)</h2>
-  <div class='card'><div class='pad'>
-    <h1>Tudelü — Facebook Posts (2026-W17)</h1>
-<div class="sp"></div>
-<h2>Post 1</h2>
-<p>Most canopy problems aren’t “design problems.”</p>
-<div class="sp"></div>
-<p>They’re installation problems.</p>
-<div class="sp"></div>
-<p>If the canopy needs field improvisation to look right, it will look different every time.</p>
-<div class="sp"></div>
-<p>A modular system reduces the guesswork: engineered parts, repeatable assembly, clean results.</p>
-<div class="sp"></div>
-<p>**Shift:** The best-looking canopy is the one that installs predictably.</p>
-<div class="sp"></div>
-<p>---</p>
-<div class="sp"></div>
-<h2>Post 2</h2>
-<p>Ever wonder why some canopies look clean… and others look like a patchwork?</p>
-<div class="sp"></div>
-<p>It’s usually not the finish.</p>
-<div class="sp"></div>
-<p>It’s the process.</p>
-<div class="sp"></div>
-<p>When details are engineered into the system (including lighting), the final result stays intentional.</p>
-<div class="sp"></div>
-<p>**Shift:** Don’t add architecture at the end. Build it into the system.</p>
-<div class="sp"></div>
-<p>---</p>
-<div class="sp"></div>
-<h2>Post 3</h2>
-<p>Contractors: speed isn’t about working faster.</p>
-<div class="sp"></div>
-<p>It’s about removing decisions in the field.</p>
-<div class="sp"></div>
-<p>When the canopy is modular, the hard decisions are made upstream in engineering.</p>
-<div class="sp"></div>
-<p>That means fewer surprises, fewer corrections, and a smoother install.</p>
-<div class="sp"></div>
-<p>**Shift:** Time saved is risk removed.</p>
-<div class="sp"></div>
-<p>---</p>
-<div class="sp"></div>
-<h2>Post 4</h2>
-<p>A canopy should NOT be a prototype.</p>
-<div class="sp"></div>
-<p>If every job is a one-off build, every install is a first time.</p>
-<div class="sp"></div>
-<p>That’s why schedules slip.</p>
-<div class="sp"></div>
-<p>Modular systems are built for repeatability—so the outcome is predictable.</p>
-<div class="sp"></div>
-<p>**Shift:** Build a playbook, not a prototype.</p>
-<div class="sp"></div>
-<p>---</p>
-<div class="sp"></div>
-<h2>Post 5</h2>
-<p>Distributors and reps: the easiest product to sell is the one that’s explainable.</p>
-<div class="sp"></div>
-<p>A system gives you:</p>
-<p>- defined components</p>
-<p>- clear pricing logic</p>
-<p>- repeatable installation</p>
-<p>- predictable outcomes</p>
-<div class="sp"></div>
-<p>That’s how you turn “canopies” from a headache into a category you can scale.</p>
-<div class="sp"></div>
-<p>**Shift:** Sell systems, not apologies.</p>
-    <div class='btns'>
-      <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Facebook%20All%20review&body=Week: 2026-W17%0D%0APlatform: Facebook%0D%0AItem: All%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve (all)</a>
-      <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Facebook%20All%20review&body=Week: 2026-W17%0D%0APlatform: Facebook%0D%0AItem: All%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision (all)</a>
-      <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Facebook%20All%20review&body=Week: 2026-W17%0D%0APlatform: Facebook%0D%0AItem: All%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline (all)</a>
+
+<!-- ============================================================
+     LINKEDIN — 5 posts, 1-column
+     ============================================================ -->
+<a id="linkedin" class="anchor-target"></a>
+<section class="platform-section">
+  <div class="section-header">
+    <div class="platform-icon" style="background:#E3EEFF; color:#0A66C2;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#0A66C2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
     </div>
-  </div></div>
+    <div class="section-title">LinkedIn</div>
+    <div class="section-count">5 posts</div>
+    <div class="section-desc">Mon–Fri · 1 per day · Thought leadership format</div>
+  </div>
+  <div class="list-1col">
+
+    <!-- LI Post 1 -->
+    <div class="post-card horizontal">
+      <div class="img-wrap wide" style="flex-shrink:0; width:300px; min-width:200px; max-width:300px;">
+        <img src="../linkedin/images/post_01.png" alt="LinkedIn Post 1"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none; background:#EEF2FF;">
+          <div class="icon">💼</div>
+          <div class="label">Image Generating…</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag platform-tag">LinkedIn</span>
+          <span class="meta-tag day-tag">Mon</span>
+          <span class="meta-tag audience-tag">architect</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline large">Custom canopies don't fail at design. They fail at process.</div>
+        <div class="card-copy lg">Most canopy projects don't break down because someone drew the wrong line.
+
+They break down because the process is built on variability:
+- One-off fabrication
+- Field measurement drift
+- Last-minute coordination changes
+- "We'll make it work" improvisation
+
+A modular canopy system changes what's possible because it changes what's repeatable.
+
+Engineered parts + known tolerances + a defined assembly logic = predictable outcomes.
+
+Shift: Stop treating canopies like artisan metalwork. Start treating them like architecture products.</div>
+        <div class="card-cta">
+          <span class="cta-icon">🔗</span>
+          <span class="cta-text">Spec Tudelü for your next project →</span>
+          <span class="cta-url">tudelu.com/spec-your-canopy</span>
+        </div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20LinkedIn%20Post%201&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20LinkedIn%0APost%20Number%3A%201%0AHeadline%3A%20Custom%20canopies%20don%27t%20fail%20at%20design.%20They%20fail%20at%20process.%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20LinkedIn%20Post%201&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20LinkedIn%0APost%20Number%3A%201%0AHeadline%3A%20Custom%20canopies%20don%27t%20fail%20at%20design.%20They%20fail%20at%20process.%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20LinkedIn%20Post%201&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20LinkedIn%0APost%20Number%3A%201%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- LI Post 2 -->
+    <div class="post-card horizontal">
+      <div class="img-wrap wide" style="flex-shrink:0; width:300px; min-width:200px; max-width:300px;">
+        <img src="../linkedin/images/post_02.png" alt="LinkedIn Post 2"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none; background:#EEF2FF;"><div class="icon">💼</div><div class="label">Image Generating…</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag platform-tag">LinkedIn</span>
+          <span class="meta-tag day-tag">Tue</span>
+          <span class="meta-tag audience-tag">general</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline large">"No welding" isn't a feature. It's a risk strategy.</div>
+        <div class="card-copy lg">Welding is strong.
+
+It's also a single point of failure for schedule and consistency.
+
+When your canopy depends on perfect welds in the field, your timeline depends on:
+- weather
+- access
+- labor availability
+- craftsmanship consistency
+
+Click-together extrusions remove that variability.
+
+You're not hoping the field goes perfectly.
+
+You're assembling a system designed to go predictably.
+
+Shift: The goal isn't fewer steps. The goal is fewer unknowns.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Get a free project quote →</span><span class="cta-url">tudelu.com/quote</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20LinkedIn%20Post%202&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20LinkedIn%0APost%20Number%3A%202%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20LinkedIn%20Post%202&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20LinkedIn%0APost%20Number%3A%202%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20LinkedIn%20Post%202&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20LinkedIn%0APost%20Number%3A%202%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- LI Post 3 -->
+    <div class="post-card horizontal">
+      <div class="img-wrap wide" style="flex-shrink:0; width:300px; min-width:200px; max-width:300px;">
+        <img src="../linkedin/images/post_03.png" alt="LinkedIn Post 3"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none; background:#EEF2FF;"><div class="icon">💼</div><div class="label">Image Generating…</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag platform-tag">LinkedIn</span>
+          <span class="meta-tag day-tag">Wed</span>
+          <span class="meta-tag audience-tag">architect</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline large">The "clean look" everyone wants is usually decided during installation.</div>
+        <div class="card-copy lg">Here's what most people miss:
+
+A canopy's final aesthetic is rarely determined in a rendering.
+
+It's determined on-site—when alignment, tolerances, and last-minute decisions collide.
+
+When a system is modular and engineered, installers aren't inventing solutions.
+
+They're executing a known assembly.
+
+That's how you get the look people call "architectural."
+
+Shift: If you want clean lines, you need a clean install path.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">See install specs →</span><span class="cta-url">tudelu.com/specs</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20LinkedIn%20Post%203&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20LinkedIn%0APost%20Number%3A%203%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20LinkedIn%20Post%203&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20LinkedIn%0APost%20Number%3A%203%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20LinkedIn%20Post%203&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20LinkedIn%0APost%20Number%3A%203%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- LI Post 4 -->
+    <div class="post-card horizontal">
+      <div class="img-wrap wide" style="flex-shrink:0; width:300px; min-width:200px; max-width:300px;">
+        <img src="../linkedin/images/post_04.png" alt="LinkedIn Post 4"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none; background:#EEF2FF;"><div class="icon">💼</div><div class="label">Image Generating…</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag platform-tag">LinkedIn</span>
+          <span class="meta-tag day-tag">Thu</span>
+          <span class="meta-tag audience-tag">contractor</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline large">Every one-off canopy is a new set of meetings.</div>
+        <div class="card-copy lg">Custom canopies quietly create a second project inside the project:
+- detailing debates
+- coordination calls
+- change orders
+- install-day surprises
+
+That overhead doesn't scale.
+
+A system scales because the decisions were made once—upstream—in engineering.
+
+Then reused.
+
+Shift: Your canopy shouldn't demand weekly coordination. It should behave like a product.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">See install timeline →</span><span class="cta-url">tudelu.com/install-timeline</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20LinkedIn%20Post%204&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20LinkedIn%0APost%20Number%3A%204%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20LinkedIn%20Post%204&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20LinkedIn%0APost%20Number%3A%204%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20LinkedIn%20Post%204&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20LinkedIn%0APost%20Number%3A%204%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- LI Post 5 -->
+    <div class="post-card horizontal">
+      <div class="img-wrap wide" style="flex-shrink:0; width:300px; min-width:200px; max-width:300px;">
+        <img src="../linkedin/images/post_05.png" alt="LinkedIn Post 5"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none; background:#EEF2FF;"><div class="icon">💼</div><div class="label">Image Generating…</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag platform-tag">LinkedIn</span>
+          <span class="meta-tag day-tag">Fri</span>
+          <span class="meta-tag audience-tag">distributor</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline large">Selling custom means selling uncertainty.</div>
+        <div class="card-copy lg">Distributors win when the product is explainable.
+
+Not "we can fabricate anything."
+
+But:
+- what it is
+- how it's assembled
+- what it costs
+- what the lead time is
+- what the install looks like
+
+A modular canopy system turns the conversation from promises to logic.
+
+Shift: Predictability isn't just an operations benefit. It's a market advantage.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">See margin sheet →</span><span class="cta-url">tudelu.com/dealers</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20LinkedIn%20Post%205&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20LinkedIn%0APost%20Number%3A%205%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20LinkedIn%20Post%205&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20LinkedIn%0APost%20Number%3A%205%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20LinkedIn%20Post%205&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20LinkedIn%0APost%20Number%3A%205%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /list-1col -->
 </section>
 
-<section class='section'>
-  <h2>Video Scripts (3)</h2>
-  <div class='card'><div class='pad'>
-    <h1>Tudelü — TikTok / YouTube Shorts Scripts (2026-W17)</h1>
-<div class="sp"></div>
-<h2>Script 1 — “Welding is not a flex”</h2>
-<p>**Hook (0–2s):** If your canopy needs welding in the field… it’s not scalable.</p>
-<div class="sp"></div>
-<p>**Body (2–20s):**</p>
-<p>People think welding equals quality.</p>
-<div class="sp"></div>
-<p>But in real projects, welding equals variability:</p>
-<p>weather, access, labor, consistency.</p>
-<div class="sp"></div>
-<p>A modular canopy system replaces that with engineered connections.</p>
-<p>Click together. Lock in. Repeat.</p>
-<div class="sp"></div>
-<p>**Close (20–30s):**</p>
-<p>Shift your thinking: stop building canopies like one-off metalwork.</p>
-<p>Start assembling them like products.</p>
-<div class="sp"></div>
-<p>**On-screen text:** “Engineered &gt; improvised”</p>
-<div class="sp"></div>
-<p>---</p>
-<div class="sp"></div>
-<h2>Script 2 — “Clean lines are a process outcome”</h2>
-<p>**Hook (0–3s):** Clean canopies don’t come from clean renderings. They come from clean installs.</p>
-<div class="sp"></div>
-<p>**Body (3–22s):**</p>
-<p>Most canopies look great… until installation.</p>
-<div class="sp"></div>
-<p>That’s where you see the truth:</p>
-<p>misalignment, field drilling, last-minute patches.</p>
-<div class="sp"></div>
-<p>Modular systems reduce field decisions, so lines stay crisp.</p>
-<div class="sp"></div>
-<p>**Close (22–30s):**</p>
-<p>Shift: If you want clean architecture overhead, you need engineered assembly—no improvisation.</p>
-<div class="sp"></div>
-<p>**On-screen text:** “Predictable &gt; uncertain”</p>
-<div class="sp"></div>
-<p>---</p>
-<div class="sp"></div>
-<h2>Script 3 — “Distributors: sell systems, not apologies”</h2>
-<p>**Hook (0–3s):** The easiest product to sell is the one you can explain.</p>
-<div class="sp"></div>
-<p>**Body (3–22s):**</p>
-<p>Custom canopies force you to sell promises:</p>
-<p>“We’ll figure it out.”</p>
-<p>“We’ll adjust on site.”</p>
-<div class="sp"></div>
-<p>A system lets you sell logic:</p>
-<p>components, lead time, install steps, predictable outcomes.</p>
-<div class="sp"></div>
-<p>**Close (22–30s):**</p>
-<p>Shift: Predictability isn’t just operational.</p>
-<p>It’s a competitive advantage.</p>
-<div class="sp"></div>
-<p>**On-screen text:** “Scalable &gt; one-off”</p>
-    <div class='btns'>
-      <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Video%20Scripts%20All%20review&body=Week: 2026-W17%0D%0APlatform: Video Scripts%0D%0AItem: All%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve (all)</a>
-      <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Video%20Scripts%20All%20review&body=Week: 2026-W17%0D%0APlatform: Video Scripts%0D%0AItem: All%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision (all)</a>
-      <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Video%20Scripts%20All%20review&body=Week: 2026-W17%0D%0APlatform: Video Scripts%0D%0AItem: All%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline (all)</a>
+
+<!-- ============================================================
+     FACEBOOK NATIVE — 5 posts, 1-column with square images
+     ============================================================ -->
+<a id="facebook" class="anchor-target"></a>
+<section class="platform-section">
+  <div class="section-header">
+    <div class="platform-icon" style="background:#E7F0FF; color:#1877F2;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
     </div>
-  </div></div>
+    <div class="section-title">Facebook Native</div>
+    <div class="section-count">5 posts</div>
+    <div class="section-desc">Mon–Fri · 1 per day · Square image format</div>
+  </div>
+  <div class="list-1col">
+
+    <!-- FB Post 1 -->
+    <div class="post-card horizontal">
+      <div class="img-wrap sq" style="flex-shrink:0; width:240px; min-width:180px; max-width:240px;">
+        <img src="../facebook/images/post_01.png" alt="Facebook Post 1"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none; background:#E7F0FF;"><div class="icon">📘</div><div class="label">Image Generating…</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag platform-tag" style="background:#1877F2;">Facebook</span>
+          <span class="meta-tag day-tag">Mon</span>
+          <span class="meta-tag audience-tag">general</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-copy lg">Most canopy problems aren't "design problems."
+
+They're installation problems.
+
+If the canopy needs field improvisation to look right, it will look different every time.
+
+A modular system reduces the guesswork: engineered parts, repeatable assembly, clean results.
+
+Shift: The best-looking canopy is the one that installs predictably.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Spec your canopy in 60 seconds →</span><span class="cta-url">tudelu.com/spec-your-canopy</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Facebook%20Post%201&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Facebook%0APost%20Number%3A%201%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Facebook%20Post%201&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Facebook%0APost%20Number%3A%201%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Facebook%20Post%201&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Facebook%0APost%20Number%3A%201%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- FB Post 2 -->
+    <div class="post-card horizontal">
+      <div class="img-wrap sq" style="flex-shrink:0; width:240px; min-width:180px; max-width:240px;">
+        <img src="../facebook/images/post_02.png" alt="Facebook Post 2"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none; background:#E7F0FF;"><div class="icon">📘</div><div class="label">Image Generating…</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag platform-tag" style="background:#1877F2;">Facebook</span>
+          <span class="meta-tag day-tag">Tue</span>
+          <span class="meta-tag audience-tag">architect</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-copy lg">Ever wonder why some canopies look clean… and others look like a patchwork?
+
+It's usually not the finish.
+
+It's the process.
+
+When details are engineered into the system (including lighting), the final result stays intentional.
+
+Shift: Don't add architecture at the end. Build it into the system.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Download the architect kit →</span><span class="cta-url">tudelu.com/architects</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Facebook%20Post%202&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Facebook%0APost%20Number%3A%202%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Facebook%20Post%202&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Facebook%0APost%20Number%3A%202%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Facebook%20Post%202&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Facebook%0APost%20Number%3A%202%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- FB Post 3 -->
+    <div class="post-card horizontal">
+      <div class="img-wrap sq" style="flex-shrink:0; width:240px; min-width:180px; max-width:240px;">
+        <img src="../facebook/images/post_03.png" alt="Facebook Post 3"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none; background:#E7F0FF;"><div class="icon">📘</div><div class="label">Image Generating…</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag platform-tag" style="background:#1877F2;">Facebook</span>
+          <span class="meta-tag day-tag">Wed</span>
+          <span class="meta-tag audience-tag">contractor</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-copy lg">Contractors: speed isn't about working faster.
+
+It's about removing decisions in the field.
+
+When the canopy is modular, the hard decisions are made upstream in engineering.
+
+That means fewer surprises, fewer corrections, and a smoother install.
+
+Shift: Time saved is risk removed.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Calculate your project →</span><span class="cta-url">tudelu.com/canopy-calculator</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Facebook%20Post%203&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Facebook%0APost%20Number%3A%203%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Facebook%20Post%203&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Facebook%0APost%20Number%3A%203%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Facebook%20Post%203&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Facebook%0APost%20Number%3A%203%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- FB Post 4 -->
+    <div class="post-card horizontal">
+      <div class="img-wrap sq" style="flex-shrink:0; width:240px; min-width:180px; max-width:240px;">
+        <img src="../facebook/images/post_04.png" alt="Facebook Post 4"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none; background:#E7F0FF;"><div class="icon">📘</div><div class="label">Image Generating…</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag platform-tag" style="background:#1877F2;">Facebook</span>
+          <span class="meta-tag day-tag">Thu</span>
+          <span class="meta-tag audience-tag">general</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-copy lg">A canopy should NOT be a prototype.
+
+If every job is a one-off build, every install is a first time.
+
+That's why schedules slip.
+
+Modular systems are built for repeatability—so the outcome is predictable.
+
+Shift: Build a playbook, not a prototype.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Book a 15-minute consult →</span><span class="cta-url">tudelu.com/book</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Facebook%20Post%204&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Facebook%0APost%20Number%3A%204%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Facebook%20Post%204&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Facebook%0APost%20Number%3A%204%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Facebook%20Post%204&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Facebook%0APost%20Number%3A%204%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- FB Post 5 -->
+    <div class="post-card horizontal">
+      <div class="img-wrap sq" style="flex-shrink:0; width:240px; min-width:180px; max-width:240px;">
+        <img src="../facebook/images/post_05.png" alt="Facebook Post 5"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none; background:#E7F0FF;"><div class="icon">📘</div><div class="label">Image Generating…</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag platform-tag" style="background:#1877F2;">Facebook</span>
+          <span class="meta-tag day-tag">Fri</span>
+          <span class="meta-tag audience-tag">developer</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-copy lg">Distributors and reps: the easiest product to sell is the one that's explainable.
+
+A system gives you:
+- defined components
+- clear pricing logic
+- repeatable installation
+- predictable outcomes
+
+That's how you turn "canopies" from a headache into a category you can scale.
+
+Shift: Sell systems, not apologies.</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Talk to our project team →</span><span class="cta-url">tudelu.com/projects</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Facebook%20Post%205&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Facebook%0APost%20Number%3A%205%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Facebook%20Post%205&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Facebook%0APost%20Number%3A%205%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Facebook%20Post%205&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Facebook%0APost%20Number%3A%205%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </section>
 
-<section class='section'>
-  <h2>Pinterest (5 pins)</h2>
-  <div class='card'><div class='pad'>
-    <h1>Tudelü — Pinterest Pins (2026-W17)</h1>
-<div class="sp"></div>
-<p>1) **Modern Entry Canopy with Integrated LED Lighting**</p>
-<p>Clean-lined modular aluminum canopy concept with warm recessed lighting. Designed for predictable installation and a high-end architectural finish.</p>
-<div class="sp"></div>
-<p>2) **Modular Aluminum Canopy System — No Welding Required**</p>
-<p>Click-together extrusions create a canopy that assembles fast and stays consistent from project to project. Engineered connections reduce install risk.</p>
-<div class="sp"></div>
-<p>3) **Architectural Canopy Underside Details (Lighting + Alignment)**</p>
-<p>Underside view inspiration: crisp lines, quiet joints, and integrated LED—because the best details are engineered into the system.</p>
-<div class="sp"></div>
-<p>4) **Repeatable Canopy Design for Hotels + Multi-Site Rollouts**</p>
-<p>Standardize the canopy edge condition across multiple properties. Modular components make the look scalable without reinventing details.</p>
-<div class="sp"></div>
-<p>5) **Contractor-Friendly Canopy Installation (Predictable Assembly)**</p>
-<p>A canopy that installs cleanly: fewer field decisions, fewer surprises, and a finished look that matches the plan.</p>
-    <div class='btns'>
-      <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Pinterest%20All%20review&body=Week: 2026-W17%0D%0APlatform: Pinterest%0D%0AItem: All%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve (all)</a>
-      <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Pinterest%20All%20review&body=Week: 2026-W17%0D%0APlatform: Pinterest%0D%0AItem: All%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision (all)</a>
-      <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Pinterest%20All%20review&body=Week: 2026-W17%0D%0APlatform: Pinterest%0D%0AItem: All%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline (all)</a>
+
+<!-- ============================================================
+     PINTEREST — 5 pins, 2-column 2:3 grid
+     ============================================================ -->
+<a id="pinterest" class="anchor-target"></a>
+<section class="platform-section">
+  <div class="section-header">
+    <div class="platform-icon" style="background:#FFE8E8; color:#E60023;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#E60023"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
     </div>
-  </div></div>
+    <div class="section-title">Pinterest</div>
+    <div class="section-count">5 pins</div>
+    <div class="section-desc">Mon–Fri · Architectural Canopies board · 2:3 vertical</div>
+  </div>
+  <div class="grid-2col">
+
+    <!-- Pinterest Pin 1 -->
+    <div class="post-card">
+      <div class="img-wrap tall">
+        <img src="../pinterest/images/pin_01.png" alt="Pinterest Pin 1"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none; background:#FFE8E8;"><div class="icon">📌</div><div class="label">Image Generating…</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Mon</span>
+          <span class="meta-tag audience-tag">architect</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">Modern Entry Canopy with Integrated LED Lighting</div>
+        <div class="card-copy">Clean-lined modular aluminum canopy concept with warm recessed lighting. Designed for predictable installation and a high-end architectural finish.
+
+Board: Architectural Canopies</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Spec Tudelü for your next project →</span><span class="cta-url">tudelu.com/spec-your-canopy</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Pinterest%20Pin%201&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Pinterest%0APin%20Number%3A%201%0ATitle%3A%20Modern%20Entry%20Canopy%20with%20Integrated%20LED%20Lighting%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Pinterest%20Pin%201&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Pinterest%0APin%20Number%3A%201%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Pinterest%20Pin%201&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Pinterest%0APin%20Number%3A%201%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pinterest Pin 2 -->
+    <div class="post-card">
+      <div class="img-wrap tall">
+        <img src="../pinterest/images/pin_02.png" alt="Pinterest Pin 2"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none; background:#FFE8E8;"><div class="icon">📌</div><div class="label">Image Generating…</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Tue</span>
+          <span class="meta-tag audience-tag">contractor</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">Modular Aluminum Canopy System — No Welding Required</div>
+        <div class="card-copy">Click-together extrusions create a canopy that assembles fast and stays consistent from project to project. Engineered connections reduce install risk.
+
+Board: Architectural Canopies</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Ask for a sample piece →</span><span class="cta-url">tudelu.com/sample-request</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Pinterest%20Pin%202&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Pinterest%0APin%20Number%3A%202%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Pinterest%20Pin%202&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Pinterest%0APin%20Number%3A%202%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Pinterest%20Pin%202&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Pinterest%0APin%20Number%3A%202%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pinterest Pin 3 -->
+    <div class="post-card">
+      <div class="img-wrap tall">
+        <img src="../pinterest/images/pin_03.png" alt="Pinterest Pin 3"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none; background:#FFE8E8;"><div class="icon">📌</div><div class="label">Image Generating…</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Wed</span>
+          <span class="meta-tag audience-tag">general</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">Architectural Canopy Underside Details (Lighting + Alignment)</div>
+        <div class="card-copy">Underside view inspiration: crisp lines, quiet joints, and integrated LED—because the best details are engineered into the system.
+
+Board: Architectural Canopies</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">See how it installs →</span><span class="cta-url">tudelu.com/install</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Pinterest%20Pin%203&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Pinterest%0APin%20Number%3A%203%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Pinterest%20Pin%203&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Pinterest%0APin%20Number%3A%203%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Pinterest%20Pin%203&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Pinterest%0APin%20Number%3A%203%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pinterest Pin 4 -->
+    <div class="post-card">
+      <div class="img-wrap tall">
+        <img src="../pinterest/images/pin_04.png" alt="Pinterest Pin 4"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none; background:#FFE8E8;"><div class="icon">📌</div><div class="label">Image Generating…</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Thu</span>
+          <span class="meta-tag audience-tag">general</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">Repeatable Canopy Design for Hotels + Multi-Site Rollouts</div>
+        <div class="card-copy">Standardize the canopy edge condition across multiple properties. Modular components make the look scalable without reinventing details.
+
+Board: Architectural Canopies</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Book a 15-minute consult →</span><span class="cta-url">tudelu.com/book</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Pinterest%20Pin%204&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Pinterest%0APin%20Number%3A%204%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Pinterest%20Pin%204&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Pinterest%0APin%20Number%3A%204%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Pinterest%20Pin%204&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Pinterest%0APin%20Number%3A%204%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pinterest Pin 5 -->
+    <div class="post-card">
+      <div class="img-wrap tall">
+        <img src="../pinterest/images/pin_05.png" alt="Pinterest Pin 5"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none; background:#FFE8E8;"><div class="icon">📌</div><div class="label">Image Generating…</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          <span class="meta-tag day-tag">Fri</span>
+          <span class="meta-tag audience-tag">general</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="card-headline">Contractor-Friendly Canopy Installation (Predictable Assembly)</div>
+        <div class="card-copy">A canopy that installs cleanly: fewer field decisions, fewer surprises, and a finished look that matches the plan.
+
+Board: Architectural Canopies</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Spec your canopy in 60 seconds →</span><span class="cta-url">tudelu.com/spec-your-canopy</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Pinterest%20Pin%205&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Pinterest%0APin%20Number%3A%205%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Pinterest%20Pin%205&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Pinterest%0APin%20Number%3A%205%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Pinterest%20Pin%205&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Pinterest%0APin%20Number%3A%205%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /grid-2col -->
 </section>
 
-<section class='section'>
-  <h2>Threads (5 posts)</h2>
-  <div class='card'><div class='pad'>
-    <h1>Tudelü — Threads Posts (2026-W17)</h1>
-<div class="sp"></div>
-<p>1) Custom canopies don’t fail at aesthetics. They fail at predictability.</p>
-<div class="sp"></div>
-<p>If the field has to invent solutions, the final look is basically a coin flip.</p>
-<div class="sp"></div>
-<p>2) Welding is strong. It’s also a schedule gamble.</p>
-<div class="sp"></div>
-<p>If your canopy needs sparks on site, you’re betting on perfect conditions.</p>
-<div class="sp"></div>
-<p>3) “Clean design” is usually just clean photography.</p>
-<div class="sp"></div>
-<p>Clean architecture happens when installation is engineered, not improvised.</p>
-<div class="sp"></div>
-<p>4) Modular doesn’t mean limited.</p>
-<div class="sp"></div>
-<p>It means controlled.</p>
-<div class="sp"></div>
-<p>The outcome is the product.</p>
-<div class="sp"></div>
-<p>5) Distributors: the easiest thing to sell is what you can explain.</p>
-<div class="sp"></div>
-<p>Systems sell on logic. Custom sells on promises.</p>
-    <div class='btns'>
-      <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Threads%20All%20review&body=Week: 2026-W17%0D%0APlatform: Threads%0D%0AItem: All%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve (all)</a>
-      <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Threads%20All%20review&body=Week: 2026-W17%0D%0APlatform: Threads%0D%0AItem: All%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision (all)</a>
-      <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20Threads%20All%20review&body=Week: 2026-W17%0D%0APlatform: Threads%0D%0AItem: All%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline (all)</a>
+
+<!-- ============================================================
+     THREADS — 5 posts, minimal list
+     ============================================================ -->
+<a id="threads" class="anchor-target"></a>
+<section class="platform-section">
+  <div class="section-header">
+    <div class="platform-icon" style="background:#F0F0F0; color:#000;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="#000"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.5 12.068V12c.024-3.46.912-6.255 2.64-8.313C6.038 1.485 8.71.044 12.181 0h.044c2.68.019 5.023.806 6.762 2.279 1.682 1.427 2.685 3.456 2.94 5.963l-2.906.273c-.404-3.832-2.927-5.648-6.821-5.676-2.655.021-4.712 1.071-6.115 3.122C4.797 7.588 4.214 9.813 4.218 12.04v.065c0 2.277.587 4.513 1.901 6.142C7.436 20.2 9.472 21.218 12.179 21.24c2.598-.017 4.32-.733 5.455-2.073.866-1.012 1.312-2.341 1.324-3.948-.838.458-1.812.825-2.965.99-1.267.18-2.667.117-4.015-.373-2.088-.757-3.328-2.365-3.263-4.279.063-1.871 1.35-3.41 3.408-4.082 1.453-.47 3.04-.453 4.566-.063 1.248.321 2.27.873 3.079 1.625.039-.274.057-.554.057-.845 0-1.302-.489-2.457-1.409-3.248-.961-.825-2.312-1.237-4.015-1.248h-.044c-2.064.012-3.585.693-4.517 2.025-.79 1.132-1.144 2.683-1.152 4.621l-.001.137c0 1.836.375 3.34 1.116 4.472.9 1.367 2.35 2.073 4.437 2.094h.012c1.682-.009 2.9-.481 3.724-1.445.761-.895 1.15-2.147 1.152-3.72-.834.31-1.671.539-2.503.673-.93.149-1.884.186-2.788.075l.38-2.865c.629.097 1.316.097 2.023-.002 1.009-.145 1.979-.508 2.904-1.068-.25-1.214-.777-2.132-1.576-2.742-.842-.641-2.003-.936-3.416-.851-2.085.129-2.985 1.204-3.016 2.123-.034 1.018.811 1.781 2.243 2.294 1.162.421 2.498.52 3.78.279 1.028-.195 1.964-.601 2.806-1.222.004.25.006.504.006.762 0 2.08-.618 3.895-1.793 5.258-1.295 1.505-3.234 2.286-5.73 2.303z"/></svg>
     </div>
-  </div></div>
+    <div class="section-title">Threads</div>
+    <div class="section-count">5 posts</div>
+    <div class="section-desc">Mon–Fri · Short-form text · @tudelu</div>
+  </div>
+  <div class="threads-list">
+
+    <!-- Thread 1 -->
+    <div class="thread-card">
+      <div class="thread-top">
+        <div class="thread-avatar">T</div>
+        <div class="thread-body">
+          <div class="thread-handle">tudelu <span>@tudelu · Mon</span></div>
+          <div class="thread-text">Custom canopies don't fail at aesthetics. They fail at predictability.
+
+If the field has to invent solutions, the final look is basically a coin flip.</div>
+        </div>
+      </div>
+      <div class="thread-footer">
+        <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+          <span class="meta-tag audience-tag">general</span>
+          <span class="status-badge pending">pending</span>
+          <span style="font-size:11px; color:var(--ink-faint);">CTA: tudelu.com/spec-your-canopy</span>
+        </div>
+        <div class="card-actions" style="margin-top:0; flex-shrink:0;">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Threads%20Post%201&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Threads%0APost%20Number%3A%201%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Threads%20Post%201&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Threads%0APost%20Number%3A%201%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Threads%20Post%201&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Threads%0APost%20Number%3A%201%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Thread 2 -->
+    <div class="thread-card">
+      <div class="thread-top">
+        <div class="thread-avatar">T</div>
+        <div class="thread-body">
+          <div class="thread-handle">tudelu <span>@tudelu · Tue</span></div>
+          <div class="thread-text">Welding is strong. It's also a schedule gamble.
+
+If your canopy needs sparks on site, you're betting on perfect conditions.</div>
+        </div>
+      </div>
+      <div class="thread-footer">
+        <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+          <span class="meta-tag audience-tag">general</span>
+          <span class="status-badge pending">pending</span>
+          <span style="font-size:11px; color:var(--ink-faint);">CTA: tudelu.com/quote</span>
+        </div>
+        <div class="card-actions" style="margin-top:0; flex-shrink:0;">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Threads%20Post%202&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Threads%0APost%20Number%3A%202%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Threads%20Post%202&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Threads%0APost%20Number%3A%202%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Threads%20Post%202&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Threads%0APost%20Number%3A%202%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Thread 3 -->
+    <div class="thread-card">
+      <div class="thread-top">
+        <div class="thread-avatar">T</div>
+        <div class="thread-body">
+          <div class="thread-handle">tudelu <span>@tudelu · Wed</span></div>
+          <div class="thread-text">"Clean design" is usually just clean photography.
+
+Clean architecture happens when installation is engineered, not improvised.</div>
+        </div>
+      </div>
+      <div class="thread-footer">
+        <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+          <span class="meta-tag audience-tag">architect</span>
+          <span class="status-badge pending">pending</span>
+          <span style="font-size:11px; color:var(--ink-faint);">CTA: tudelu.com/specs</span>
+        </div>
+        <div class="card-actions" style="margin-top:0; flex-shrink:0;">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Threads%20Post%203&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Threads%0APost%20Number%3A%203%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Threads%20Post%203&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Threads%0APost%20Number%3A%203%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Threads%20Post%203&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Threads%0APost%20Number%3A%203%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Thread 4 -->
+    <div class="thread-card">
+      <div class="thread-top">
+        <div class="thread-avatar">T</div>
+        <div class="thread-body">
+          <div class="thread-handle">tudelu <span>@tudelu · Thu</span></div>
+          <div class="thread-text">Modular doesn't mean limited.
+
+It means controlled.
+
+The outcome is the product.</div>
+        </div>
+      </div>
+      <div class="thread-footer">
+        <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+          <span class="meta-tag audience-tag">general</span>
+          <span class="status-badge pending">pending</span>
+          <span style="font-size:11px; color:var(--ink-faint);">CTA: tudelu.com/book</span>
+        </div>
+        <div class="card-actions" style="margin-top:0; flex-shrink:0;">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Threads%20Post%204&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Threads%0APost%20Number%3A%204%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Threads%20Post%204&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Threads%0APost%20Number%3A%204%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Threads%20Post%204&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Threads%0APost%20Number%3A%204%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Thread 5 -->
+    <div class="thread-card">
+      <div class="thread-top">
+        <div class="thread-avatar">T</div>
+        <div class="thread-body">
+          <div class="thread-handle">tudelu <span>@tudelu · Fri</span></div>
+          <div class="thread-text">Distributors: the easiest thing to sell is what you can explain.
+
+Systems sell on logic. Custom sells on promises.</div>
+        </div>
+      </div>
+      <div class="thread-footer">
+        <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+          <span class="meta-tag audience-tag">distributor</span>
+          <span class="status-badge pending">pending</span>
+          <span style="font-size:11px; color:var(--ink-faint);">CTA: tudelu.com/dealers</span>
+        </div>
+        <div class="card-actions" style="margin-top:0; flex-shrink:0;">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20Threads%20Post%205&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Threads%0APost%20Number%3A%205%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20Threads%20Post%205&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Threads%0APost%20Number%3A%205%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20Threads%20Post%205&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Threads%0APost%20Number%3A%205%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </section>
 
-<section class='section'>
-  <h2>Google Business Profile (1 post)</h2>
-  <div class='card'><div class='pad'>
-    <h1>Tudelü — Google Business Profile Post (2026-W17)</h1>
-<div class="sp"></div>
-<p>**Title:** Modular Canopies. Predictable Installation.</p>
-<div class="sp"></div>
-<p>Most canopy projects don’t break down because of the design.</p>
-<div class="sp"></div>
-<p>They break down because the process is built on improvisation.</p>
-<div class="sp"></div>
-<p>Tudelü’s modular aluminum canopy system clicks together (no welding), with integrated LED options and clean architectural finishes—so your canopy installs faster and looks intentional.</p>
-<div class="sp"></div>
-<p>**Call to action:** Message us to spec a canopy system for your project.</p>
-    <div class='btns'>
-      <a class='btn approve' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20GBP%201%20review&body=Week: 2026-W17%0D%0APlatform: GBP%0D%0AItem: 1%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Approve</a>
-      <a class='btn revise' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20GBP%201%20review&body=Week: 2026-W17%0D%0APlatform: GBP%0D%0AItem: 1%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Revision</a>
-      <a class='btn decline' href='mailto:chaim.fischer@tudelu.com?subject=Tudelu%202026-W17%20—%20GBP%201%20review&body=Week: 2026-W17%0D%0APlatform: GBP%0D%0AItem: 1%0D%0AStatus: [Approve/Revision/Decline]%0D%0ANotes: '>Decline</a>
+
+<!-- ============================================================
+     YOUTUBE SHORTS — 3 scripts
+     ============================================================ -->
+<a id="youtube" class="anchor-target"></a>
+<section class="platform-section">
+  <div class="section-header">
+    <div class="platform-icon" style="background:#FFE8E8; color:#FF0000;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="#FF0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
     </div>
-  </div></div>
+    <div class="section-title">YouTube Shorts</div>
+    <div class="section-count">3 scripts</div>
+    <div class="section-desc">Mon / Wed / Fri · 30-second scripts · Video to be produced</div>
+  </div>
+  <div class="script-grid">
+
+    <!-- Script 1 -->
+    <div class="script-card">
+      <div class="script-video-placeholder">
+        <div class="play-icon">▶</div>
+        <div class="video-label">Video — Pending Production</div>
+      </div>
+      <div class="script-body">
+        <div class="script-meta">
+          <span class="meta-tag platform-tag" style="background:#FF0000;">YT Shorts</span>
+          <span class="meta-tag day-tag">Mon</span>
+          <span class="meta-tag audience-tag">general</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="script-title">"Welding is not a flex"</div>
+        <div class="script-text">Hook (0–2s): If your canopy needs welding in the field… it's not scalable.
+
+Body (2–20s):
+People think welding equals quality.
+
+But in real projects, welding equals variability:
+weather, access, labor, consistency.
+
+A modular canopy system replaces that with engineered connections.
+Click together. Lock in. Repeat.
+
+Close (20–30s):
+Shift your thinking: stop building canopies like one-off metalwork.
+Start assembling them like products.
+
+On-screen text: "Engineered > improvised"</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Spec your canopy in 60 seconds →</span><span class="cta-url">tudelu.com/spec-your-canopy</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20YouTube%20Shorts%20Script%201&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20YouTube%20Shorts%0AScript%20Number%3A%201%0ATitle%3A%20Welding%20is%20not%20a%20flex%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20YouTube%20Shorts%20Script%201&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20YouTube%20Shorts%0AScript%20Number%3A%201%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20YouTube%20Shorts%20Script%201&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20YouTube%20Shorts%0AScript%20Number%3A%201%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Script 2 -->
+    <div class="script-card">
+      <div class="script-video-placeholder">
+        <div class="play-icon">▶</div>
+        <div class="video-label">Video — Pending Production</div>
+      </div>
+      <div class="script-body">
+        <div class="script-meta">
+          <span class="meta-tag platform-tag" style="background:#FF0000;">YT Shorts</span>
+          <span class="meta-tag day-tag">Wed</span>
+          <span class="meta-tag audience-tag">general</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="script-title">"Clean lines are a process outcome"</div>
+        <div class="script-text">Hook (0–3s): Clean canopies don't come from clean renderings. They come from clean installs.
+
+Body (3–22s):
+Most canopies look great… until installation.
+
+That's where you see the truth:
+misalignment, field drilling, last-minute patches.
+
+Modular systems reduce field decisions, so lines stay crisp.
+
+Close (22–30s):
+Shift: If you want clean architecture overhead, you need engineered assembly—no improvisation.
+
+On-screen text: "Predictable > uncertain"</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">Get a free project quote →</span><span class="cta-url">tudelu.com/quote</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20YouTube%20Shorts%20Script%202&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20YouTube%20Shorts%0AScript%20Number%3A%202%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20YouTube%20Shorts%20Script%202&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20YouTube%20Shorts%0AScript%20Number%3A%202%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20YouTube%20Shorts%20Script%202&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20YouTube%20Shorts%0AScript%20Number%3A%202%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Script 3 -->
+    <div class="script-card">
+      <div class="script-video-placeholder">
+        <div class="play-icon">▶</div>
+        <div class="video-label">Video — Pending Production</div>
+      </div>
+      <div class="script-body">
+        <div class="script-meta">
+          <span class="meta-tag platform-tag" style="background:#FF0000;">YT Shorts</span>
+          <span class="meta-tag day-tag">Fri</span>
+          <span class="meta-tag audience-tag">general</span>
+          <span class="status-badge pending">pending</span>
+        </div>
+        <div class="script-title">"Distributors: sell systems, not apologies"</div>
+        <div class="script-text">Hook (0–3s): The easiest product to sell is the one you can explain.
+
+Body (3–22s):
+Custom canopies force you to sell promises:
+"We'll figure it out."
+"We'll adjust on site."
+
+A system lets you sell logic:
+components, lead time, install steps, predictable outcomes.
+
+Close (22–30s):
+Shift: Predictability isn't just operational.
+It's a competitive advantage.
+
+On-screen text: "Scalable > one-off"</div>
+        <div class="card-cta"><span class="cta-icon">🔗</span><span class="cta-text">See how it installs →</span><span class="cta-url">tudelu.com/install</span></div>
+        <div class="card-actions">
+          <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20YouTube%20Shorts%20Script%203&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20YouTube%20Shorts%0AScript%20Number%3A%203%0A%0ANotes%3A%20">✓ Approve</a>
+          <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20YouTube%20Shorts%20Script%203&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20YouTube%20Shorts%0AScript%20Number%3A%203%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+          <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20YouTube%20Shorts%20Script%203&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20YouTube%20Shorts%0AScript%20Number%3A%203%0A%0AReason%3A%20">✕ Decline</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </section>
 
-</div>
-</body></html>
+
+<!-- ============================================================
+     GOOGLE BUSINESS PROFILE — 1 post
+     ============================================================ -->
+<a id="gbp" class="anchor-target"></a>
+<section class="platform-section">
+  <div class="section-header">
+    <div class="platform-icon" style="background:#E8F5E9; color:#34A853;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#34A853"/></svg>
+    </div>
+    <div class="section-title">Google Business Profile</div>
+    <div class="section-count">1 post</div>
+    <div class="section-desc">Wednesday · Business update format</div>
+  </div>
+
+  <div class="gbp-card">
+    <div class="gbp-header">
+      <div class="gbp-logo">📍</div>
+      <div>
+        <div class="gbp-name">Tudelü</div>
+        <div class="gbp-type">Canopy Systems Manufacturer · Google Business Profile</div>
+      </div>
+    </div>
+    <div class="card-meta" style="margin-bottom:12px;">
+      <span class="meta-tag day-tag">Wed</span>
+      <span class="meta-tag audience-tag">architect</span>
+      <span class="status-badge pending">pending</span>
+    </div>
+    <div class="gbp-post-title">Modular Canopies. Predictable Installation.</div>
+    <div class="gbp-text">Most canopy projects don't break down because of the design.
+
+They break down because the process is built on improvisation.
+
+Tudelü's modular aluminum canopy system clicks together (no welding), with integrated LED options and clean architectural finishes—so your canopy installs faster and looks intentional.</div>
+    <div class="gbp-cta-button">
+      <span>Spec Tudelü for your next project →</span>
+    </div>
+    <div style="font-size:11px; color:var(--ink-faint); margin-bottom:14px;">tudelu.com/spec-your-canopy?utm_source=gbp</div>
+    <div class="card-actions">
+      <a class="action-btn approve" href="mailto:chaim.fischer@tudelu.com?subject=APPROVED%20-%20W17%20GBP%20Post%201&body=APPROVED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Google%20Business%20Profile%0APost%20Number%3A%201%0ATitle%3A%20Modular%20Canopies.%20Predictable%20Installation.%0A%0ANotes%3A%20">✓ Approve</a>
+      <a class="action-btn revise" href="mailto:chaim.fischer@tudelu.com?subject=REVISION%20-%20W17%20GBP%20Post%201&body=REVISION%20REQUESTED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Google%20Business%20Profile%0APost%20Number%3A%201%0A%0ARevision%20notes%3A%20">✎ Revise</a>
+      <a class="action-btn decline" href="mailto:chaim.fischer@tudelu.com?subject=DECLINED%20-%20W17%20GBP%20Post%201&body=DECLINED%0A%0AWeek%3A%202026-W17%0APlatform%3A%20Google%20Business%20Profile%0APost%20Number%3A%201%0A%0AReason%3A%20">✕ Decline</a>
+    </div>
+  </div>
+
+</section>
+
+</div><!-- /container -->
+
+<footer class="site-footer">
+  <div>Tudelü Content Review · Week 2026-W17 · 7 platforms · 45 posts</div>
+  <div style="margin-top:4px;">Tap <strong>Approve</strong>, <strong>Revise</strong>, or <strong>Decline</strong> on each post — opens an email to chaim.fischer@tudelu.com with your decision pre-filled.</div>
+</footer>
+
+</body>
+</html>
